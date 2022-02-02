@@ -72,20 +72,25 @@ def takeCommand():
             query=""
 
          if 'alex' in query:
+            window.update()
             wishMe()
             var.set("")
          
          elif 'youtube' in query:
+            window.update()
             speak("opening youtube ")
+            window.update()
             webbrowser.open("youtube.com")
             var.set("")
 
          elif 'google' in query:
+            window.update()
             speak("opening google ")
             webbrowser.open("google.com")
             var.set("")
 
          elif 'wikipedia' in query:
+             window.update()
              speak('Searching Wikipedia...')
              query = query.replace("wikipedia","")
              results = wikipedia.summary(query,sentences=2)
@@ -94,69 +99,85 @@ def takeCommand():
              var.set("")
 
          elif 'whatsapp' in query:
+            window.update()
             speak("opening whatsapp ")
             webbrowser.open("https://web.whatsapp.com")
             var.set("")
 
          elif 'mail' in query:
+            window.update()
             speak("opening gmail ")
             webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
             var.set("")
 
          elif 'classroom' in query:
+            window.update()
             speak("opening google classroom ")
             webbrowser.open("https://classroom.google.com/h")
             var.set("")
 
          elif 'weather' in query:
+            window.update()
             speak("showing weather news ")
             webbrowser.open("https://www.bing.com/search?q=weather&cvid=80b3646d80b745f3808c8e0549263256&aqs=edge.0.0l9.3156j0j1&pglt=43&FORM=ANSPA1&PC=EDGEDB")
             var.set("")
 
          elif'time' in query:
+            window.update()
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir the time is {strTime}")
             var.set("")
 
          elif 'code' in query:
             if windowsapps.find_app('Visual Studio Code')=="Application not found!":
+               window.update()
                speak("You do not have this application")
             else:
+               window.update()
                speak("opening Visual studio code ")
                windowsapps.open_app("Visual Studio Code")
             var.set("")
 
          elif 'word' in query:
             if windowsapps.find_app('Word')=="Application not found!":
+               window.update()
                speak("You do not have this application")
             else:
+               window.update()
                speak("opening word ")
                windowsapps.open_app("Word")
                var.set("")
 
          elif 'powerpoint' in query:
+            window.update()
             if windowsapps.find_app('Powerpoint')=="Application not found!":
                speak("You do not have this application")
             else: 
+               window.update()
                speak("opening power point")
                windowsapps.open_app("Powerpoint")
             var.set("")
          
          elif 'edge' in query:
             if windowsapps.find_app('Edge')=="Application not found!":
+               window.update()
                speak("You do not have this application")
             else: 
+               window.update()
                speak("opening Microsoft Edge")
                windowsapps.open_app("Edge")
             var.set("")
          
          elif 'chrome' in query:
+            window.update()
             if windowsapps.find_app('chrome')=="Application not found!":
                speak("You do not have this application")
             else:
+               window.update()
                windowsapps.open_app('chrome')
             var.set("")
          else:
+            window.update()
             speak("I did not understand that")
             var.set("")
 
