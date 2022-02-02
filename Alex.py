@@ -1,6 +1,9 @@
 from asyncio.windows_events import NULL
+from cgitb import text
 from email.mime import image
+from fileinput import filename
 from json.tool import main
+from multiprocessing.sharedctypes import Value
 from winreg import QueryInfoKey
 import pyttsx3
 import datetime
@@ -8,7 +11,6 @@ import speech_recognition as sr
 import wikipedia
 import webbrowser
 import windowsapps
-
 from tkinter import *
 
 engine=pyttsx3.init('sapi5')
@@ -35,6 +37,7 @@ var=StringVar()
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
+    
 
 def wishMe():
     hour=int(datetime.datetime.now().hour)
@@ -68,6 +71,7 @@ def takeCommand():
              
 
          except Exception as e:
+            window.update()
             speak("Say that again please....")
             query=""
 
@@ -176,10 +180,12 @@ def takeCommand():
                window.update()
                windowsapps.open_app('chrome')
             var.set("")
+
          else:
-            window.update()
-            speak("I did not understand that")
-            var.set("")
+             window.update()
+             speak("I did not understand that")
+             var.set("")
+        
 
 icons=PhotoImage(file="Images\power.png")
 
