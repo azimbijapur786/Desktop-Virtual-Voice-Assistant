@@ -119,7 +119,7 @@ def takeCommand():
             var.set("")
 
          elif 'code' in query:
-            if windowsapps.find_app('chrome')=="Application not found!":
+            if windowsapps.find_app('Visual Studio Code')=="Application not found!":
                speak("You do not have this application")
             else:
                speak("opening Visual studio code ")
@@ -127,7 +127,7 @@ def takeCommand():
             var.set("")
 
          elif 'word' in query:
-            if windowsapps.find_app('chrome')=="Application not found!":
+            if windowsapps.find_app('Word')=="Application not found!":
                speak("You do not have this application")
             else:
                speak("opening word ")
@@ -135,7 +135,7 @@ def takeCommand():
                var.set("")
 
          elif 'powerpoint' in query:
-            if windowsapps.find_app('chrome')=="Application not found!":
+            if windowsapps.find_app('Powerpoint')=="Application not found!":
                speak("You do not have this application")
             else: 
                speak("opening power point")
@@ -143,7 +143,7 @@ def takeCommand():
             var.set("")
          
          elif 'edge' in query:
-            if windowsapps.find_app('chrome')=="Application not found!":
+            if windowsapps.find_app('Edge')=="Application not found!":
                speak("You do not have this application")
             else: 
                speak("opening Microsoft Edge")
@@ -160,7 +160,7 @@ def takeCommand():
             speak("I did not understand that")
             var.set("")
 
-icons=PhotoImage(file="C:\\Users\AZIM AHMED BIJAPUR\OneDrive\Desktop\Desktop Virtual Voice Assistant\Images\power.png")
+icons=PhotoImage(file="Images\power.png")
 
 activate=Button(window,text="Speak",image=icons,command=takeCommand,height=70,width=70)
 
