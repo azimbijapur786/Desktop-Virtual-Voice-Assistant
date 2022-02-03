@@ -66,18 +66,22 @@ def takeCommand():
          audio=r.listen(source)
 
          try:
+             window.update()
              audio = r.recognize_google(audio, language='en-in')
+             window.update()
              query=audio.lower()
              
 
          except Exception as e:
             window.update()
             speak("Say that again please....")
+            window.update()
             query=""
 
          if 'alex' in query:
             window.update()
             wishMe()
+            window.update()
             var.set("")
          
          elif 'youtube' in query:
@@ -90,46 +94,60 @@ def takeCommand():
          elif 'google' in query:
             window.update()
             speak("opening google ")
+            window.update()
             webbrowser.open("google.com")
+            window.update()
             var.set("")
 
          elif 'wikipedia' in query:
+             var.set("")
              window.update()
              speak('Searching Wikipedia...')
              query = query.replace("wikipedia","")
              results = wikipedia.summary(query,sentences=2)
+             window.update()
              speak("According to Wikipedia ")
+             window.update()
              speak(results)
-             var.set("")
+             window.update()
 
          elif 'whatsapp' in query:
             window.update()
             speak("opening whatsapp ")
+            window.update()
             webbrowser.open("https://web.whatsapp.com")
+            window.update()
             var.set("")
 
          elif 'mail' in query:
             window.update()
             speak("opening gmail ")
+            window.update()
             webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
+            window.update()
             var.set("")
 
          elif 'classroom' in query:
             window.update()
             speak("opening google classroom ")
+            window.update()
             webbrowser.open("https://classroom.google.com/h")
+            window.update()
             var.set("")
 
          elif 'weather' in query:
             window.update()
             speak("showing weather news ")
+            window.update()
             webbrowser.open("https://www.bing.com/search?q=weather&cvid=80b3646d80b745f3808c8e0549263256&aqs=edge.0.0l9.3156j0j1&pglt=43&FORM=ANSPA1&PC=EDGEDB")
+            window.update()
             var.set("")
 
-         elif'time' in query:
+         elif 'time' in query:
             window.update()
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir the time is {strTime}")
+            window.update()
             var.set("")
 
          elif 'code' in query:
