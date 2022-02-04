@@ -154,49 +154,64 @@ def takeCommand():
             if windowsapps.find_app('Visual Studio Code')=="Application not found!":
                window.update()
                speak("You do not have this application")
+               window.update()
             else:
                window.update()
                speak("opening Visual studio code ")
+               window.update()
                windowsapps.open_app("Visual Studio Code")
+               window.update()
             var.set("")
 
          elif 'word' in query:
             if windowsapps.find_app('Word')=="Application not found!":
                window.update()
                speak("You do not have this application")
+               window.update()
             else:
                window.update()
                speak("opening word ")
+               window.update()
                windowsapps.open_app("Word")
+               window.update()
                var.set("")
 
          elif 'powerpoint' in query:
             window.update()
             if windowsapps.find_app('Powerpoint')=="Application not found!":
+               window.update()
                speak("You do not have this application")
+               window.update()
             else: 
                window.update()
                speak("opening power point")
+               window.update()
                windowsapps.open_app("Powerpoint")
+               window.update()
             var.set("")
          
          elif 'edge' in query:
             if windowsapps.find_app('Edge')=="Application not found!":
                window.update()
                speak("You do not have this application")
+               window.update()
             else: 
                window.update()
                speak("opening Microsoft Edge")
+               window.update()
                windowsapps.open_app("Edge")
+               window.update()
             var.set("")
          
          elif 'chrome' in query:
             window.update()
             if windowsapps.find_app('chrome')=="Application not found!":
+               window.update()
                speak("You do not have this application")
             else:
                window.update()
                windowsapps.open_app('chrome')
+               window.update()
             var.set("")
 
          else:
