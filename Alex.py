@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from cgitb import text
 from email.mime import image
 from fileinput import filename
@@ -89,6 +88,34 @@ def takeCommand():
             speak("opening youtube ")
             window.update()
             webbrowser.open("youtube.com")
+            var.set("")
+
+         elif 'news' in query:
+            window.update()
+            speak("showing you some fresh news ")
+            window.update()
+            webbrowser.open("https://www.youtube.com/c/BBCNews")
+            var.set("")
+
+         elif 'drive' in query:
+            window.update()
+            speak("opening google drive ")
+            window.update()
+            webbrowser.open("https://drive.google.com/drive/my-drive")
+            var.set("")
+
+         elif 'meet' in query:
+            window.update()
+            speak("opening google meet ")
+            window.update()
+            webbrowser.open("https://meet.google.com/")
+            var.set("")
+         
+         elif 'github' in query:
+            window.update()
+            speak("opening github ")
+            window.update()
+            webbrowser.open("https://github.com/")
             var.set("")
 
          elif 'google' in query:
@@ -208,9 +235,407 @@ def takeCommand():
             if windowsapps.find_app('chrome')=="Application not found!":
                window.update()
                speak("You do not have this application")
+               window.update()
             else:
                window.update()
                windowsapps.open_app('chrome')
+               window.update()
+               speak("Opening google chrome")
+               window.update()
+            var.set("")
+         
+         elif 'calculator' in query:
+            window.update()
+            if windowsapps.find_app('calculator')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('calculator')
+               window.update()
+               speak("Opening calculator")
+               window.update()
+            var.set("")
+
+         elif 'camera' in query:
+            window.update()
+            if windowsapps.find_app('camera')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('camera')
+               window.update()
+               speak("Opening camera")
+               window.update()
+            var.set("")
+
+         elif 'zoom' in query:
+            window.update()
+            if windowsapps.find_app('zoom')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('zoom')
+               window.update()
+               speak("Opening zoom")
+               window.update()
+            var.set("")
+
+         elif 'teams' in query:
+            window.update()
+            if windowsapps.find_app('microsoft teams')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('microsoft teams')
+               window.update()
+               speak("Opening microsoft teams")
+               window.update()
+            var.set("")
+
+         elif 'firefox' in query:
+            window.update()
+            if windowsapps.find_app('firefox')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('firefox')
+               window.update()
+               speak("Opening firefox")
+               window.update()
+            var.set("")
+      
+         elif 'eclipse' in query:
+            window.update()
+            if windowsapps.find_app('eclipse')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('eclipse')
+               window.update()
+               speak("Opening eclipse")
+               window.update()
+            var.set("")
+
+         elif 'intellij' in query:
+            window.update()
+            if windowsapps.find_app('intellij idea')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('intellij idea')
+               window.update()
+               speak("Opening intellij idea")
+               window.update()
+            var.set("")
+
+         elif 'python' in query:
+            window.update()
+            if windowsapps.find_app('pycharm')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('pycharm')
+               window.update()
+               speak("Opening pycharm")
+               window.update()
+            var.set("")
+
+         elif 'paint' in query:
+            window.update()
+            if windowsapps.find_app('paint')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('paint')
+               window.update()
+               speak("Opening paint")
+               window.update()
+            var.set("")
+
+         elif 'notepad' in query:
+            window.update()
+            if windowsapps.find_app('notepad')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('notepad')
+               window.update()
+               speak("Opening notepad")
+               window.update()
+            var.set("")
+
+         elif 'excel' in query:
+            window.update()
+            if windowsapps.find_app('excel')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('excel')
+               window.update()
+               window.update()
+               speak("Opening excel")
+               window.update()
+            var.set("")
+
+         elif 'pictures' in query:
+            window.update()
+            if windowsapps.find_app('photos')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('photos')
+               window.update()
+               window.update()
+               speak("Opening photos")
+               window.update()
+            var.set("")
+
+         elif 'settings' in query:
+            window.update()
+            if windowsapps.find_app('control panel')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('control panel')
+               window.update()
+               window.update()
+               speak("Opening control panel")
+               window.update()
+            var.set("")
+
+         elif 'photoshop' in query:
+            window.update()
+            if windowsapps.find_app('adobe photoshop')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('adobe photoshop')
+               window.update()
+               window.update()
+               speak("Opening adobe photoshop")
+               window.update()
+            var.set("")
+
+         elif 'instagram' in query:
+            window.update()
+            if windowsapps.find_app('instagram')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('instagram')
+               window.update()
+               window.update()
+               speak("Opening instagram")
+               window.update()
+            var.set("")
+
+         elif 'one note' in query:
+            window.update()
+            if windowsapps.find_app('onenote')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('onenote')
+               window.update()
+               window.update()
+               speak("Opening onenote")
+               window.update()
+            var.set("")
+
+         elif 'to do' in query:
+            window.update()
+            if windowsapps.find_app('to do')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('to do')
+               window.update()
+               window.update()
+               speak("Opening microsoft to do")
+               window.update()
+            var.set("")
+
+         elif 'your phone' in query:
+            window.update()
+            if windowsapps.find_app('your phone')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('your phone')
+               window.update()
+               window.update()
+               speak("Opening your phone")
+               window.update()
+            var.set("")
+
+         elif 'telegram' in query:
+            window.update()
+            if windowsapps.find_app('telegram')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('telegram')
+               window.update()
+               window.update()
+               speak("Opening telegram")
+               window.update()
+            var.set("")
+
+         elif 'powershell' in query:
+            window.update()
+            if windowsapps.find_app('powershell')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('powershell')
+               window.update()
+               window.update()
+               speak("Opening windows powershell")
+               window.update()
+            var.set("")
+
+         elif 'bash' in query:
+            window.update()
+            if windowsapps.find_app('git bash')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('git bash')
+               window.update()
+               window.update()
+               speak("Opening git bash")
+               window.update()
+            var.set("")
+
+         elif 'shell' in query:
+            window.update()
+            if windowsapps.find_app('IDLE (Python 3.10 64-bit)')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('IDLE (Python 3.10 64-bit)')
+               window.update()
+               window.update()
+               speak("Opening python shell")
+               window.update()
+            var.set("")
+
+         elif 'calendar' in query:
+            window.update()
+            if windowsapps.find_app('calendar')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('calendar')
+               window.update()
+               window.update()
+               speak("Opening calendar")
+               window.update()
+            var.set("")
+
+         elif 'xbox' in query:
+            window.update()
+            if windowsapps.find_app('xbox game bar')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('xbox game bar')
+               window.update()
+               window.update()
+               speak("Opening xbox game bar")
+               window.update()
+            var.set("")
+
+         elif 'android studio' in query:
+            window.update()
+            if windowsapps.find_app('android studio')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('android studio')
+               window.update()
+               window.update()
+               speak("Opening android studio")
+               window.update()
+            var.set("")
+
+         elif 'filmora' in query:
+            window.update()
+            if windowsapps.find_app('filmora')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('filmora')
+               window.update()
+               window.update()
+               speak("Opening filmora")
+               window.update()
+            var.set("")
+
+         elif 'premiere' in query:
+            window.update()
+            if windowsapps.find_app('adobe premiere pro')=="Application not found!":
+               window.update()
+               speak("You do not have this application")
+               window.update()
+            else:
+               window.update()
+               windowsapps.open_app('adobe premiere pro')
+               window.update()
+               window.update()
+               speak("Opening adobe premiere pro")
                window.update()
             var.set("")
 
@@ -222,7 +647,7 @@ def takeCommand():
 
 icons=PhotoImage(file="Images\power.png")
 
-activate=Button(window,text="Speak",image=icons,command=takeCommand,height=70,width=70)
+activate=Button(window,text="Speak",command=takeCommand,image=icons,height=70,width=70)
 
 activate.place(x=160,y=200)
 
