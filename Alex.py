@@ -342,20 +342,6 @@ def takeCommand():
                window.update()
             var.set("")
 
-         elif 'python' in query:
-            window.update()
-            if windowsapps.find_app('pycharm')=="Application not found!":
-               window.update()
-               speak("You do not have this application")
-               window.update()
-            else:
-               window.update()
-               windowsapps.open_app('pycharm')
-               window.update()
-               speak("Opening pycharm")
-               window.update()
-            var.set("")
-
          elif 'paint' in query:
             window.update()
             if windowsapps.find_app('paint')=="Application not found!":
@@ -549,7 +535,7 @@ def takeCommand():
                window.update()
             var.set("")
 
-         elif 'shell' in query:
+         elif 'python' in query:
             window.update()
             if windowsapps.find_app('IDLE (Python 3.10 64-bit)')=="Application not found!":
                window.update()
