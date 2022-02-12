@@ -53,7 +53,7 @@ def wishMe():
     speak("I am Alex ")
     speak("Sir Please tell me how may I help you")
 
-def takeCommand():
+def takeCommand(event):
      #It takes mic input from user and returns string output
      r=sr.Recognizer()
      var.set("Listening...")
@@ -651,8 +651,11 @@ def show_help():
 
 # WIDGETS HERE
 icons=PhotoImage(file="Images\power.png")
+activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
+window.bind('<Control-i>',takeCommand)
 
 activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
+
 
 activate.place(x=160,y=200)
 
