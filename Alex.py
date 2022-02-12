@@ -724,7 +724,7 @@ def takeCommand(event = " "):
              speak("I did not understand that")
              var.set("")
 
-def show_info():
+def show_info(event = " "):
        global info
        info = Toplevel(window)
        info.title("Information")
@@ -736,7 +736,7 @@ def show_info():
        ok_button = Button(info, command = info.destroy, text = "OK").pack(anchor="s", side = BOTTOM)
 
 #Opens window on click ? button  
-def show_help():
+def show_help(event = " "):
        global help 
        help = Toplevel(window)
        help.title("Help")
@@ -779,9 +779,11 @@ lis.place(x=170,y=300)
 #About Button
 about_image = PhotoImage(file = "Images\info.png")
 about_button = Button(window,image = about_image,relief=FLAT, command = show_info).pack(anchor= "ne")
+window.bind('<Control-i>',show_info)
 #Help Button
 help_image = PhotoImage(file = "Images\help.png")
 help_button = Button(window, image = help_image,relief=FLAT, command= show_help).pack(anchor= "ne")
+window.bind('<Control-h>',show_help)
 
 window.mainloop() 
    
