@@ -10,7 +10,7 @@ import speech_recognition as sr
 import wikipedia
 import webbrowser
 import windowsapps
-from tkinter import *
+from tkinter import * 
 
 engine=pyttsx3.init('sapi5')
 
@@ -20,11 +20,11 @@ voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
 
+# Window Declaration Here
 window =Tk()
-
-window.geometry("400x400")
-
-window.title("Alex")
+window.geometry("400x600")
+window.resizable(False,False)
+window.title("Alex- Virtual Voice Assistant")
 
 window.iconbitmap('robot.ico')
 
@@ -78,6 +78,7 @@ def takeCommand():
             query=""
 
          if 'alex' in query:
+            var.set("Recognizing...")
             window.update()
             wishMe()
             window.update()
@@ -630,10 +631,28 @@ def takeCommand():
              speak("I did not understand that")
              var.set("")
         
+def show_info():
+       global info
+       info = Toplevel(window)
+       info.title("Information")
+       info.geometry("250x250")
+       info.resizable(False,False)
+       ok_button = Button(info, command = info.destroy, text = "OK").pack(anchor="s", side = BOTTOM)
 
+#Opens window on click ? button  
+def show_help():
+       global help 
+       help = Toplevel(window)
+       help.title("Help")
+       help.geometry("250x250")
+       help.resizable(False,False)
+       ok_button = Button(help, command = help.destroy, text = "OK", pady = 10).pack(anchor="s", side = BOTTOM)
+      
+
+# WIDGETS HERE
 icons=PhotoImage(file="Images\power.png")
 
-activate=Button(window,text="Speak",command=takeCommand,image=icons,height=70,width=70)
+activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
 
 activate.place(x=160,y=200)
 
@@ -655,11 +674,12 @@ lis=Label(window,textvariable=var)
 
 lis.place(x=170,y=300)
 
+#About Button
+about_image = PhotoImage(file = "Images\info.png")
+about_button = Button(window,image = about_image,relief=FLAT, command = show_info).pack(anchor= "ne")
+#Help Button
+help_image = PhotoImage(file = "Images\help.png")
+help_button = Button(window, image = help_image,relief=FLAT, command= show_help).pack(anchor= "ne")
+
 window.mainloop() 
-
-
-
-
-
-
-    
+   
