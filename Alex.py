@@ -3,6 +3,7 @@ from email.mime import image
 from fileinput import filename
 from json.tool import main
 from multiprocessing.sharedctypes import Value
+from tkinter.font import BOLD
 from winreg import QueryInfoKey
 import pyttsx3
 import datetime
@@ -10,6 +11,8 @@ import speech_recognition as sr
 import wikipedia
 import webbrowser
 import windowsapps
+import random
+import pyjokes
 from tkinter import * 
 
 engine=pyttsx3.init('sapi5')
@@ -42,20 +45,58 @@ def wishMe():
     hour=int(datetime.datetime.now().hour)
 
     if hour>=0 and hour<12:
-        speak("Good Morning!")
+        speak("Good Morning! Sir")
 
     elif hour>=12 and hour<17:
-        speak("Good Afternoon!")
+        speak("Good Afternoon! Sir")
 
     else:
-        speak("Good Evening!")
-
-    speak("I am Alex ")
+        speak("Good Evening Sir!")
+        window.update()
+    speak("Allow me to introduce myself")
+    window.update()
+    speak("I am Alex, The virtual voice assistant ,and i'm here to assist you with variety of tasks, since the best i can, 24 hours a day 7 days a week, importing all preferences from herman to base")
+    window.update()
     speak("Sir Please tell me how may I help you")
-
-def takeCommand(event):
+    window.update()
+    
+    
+    
+def tossAcoin():
+    window.update()
+    coins = [1,2]
+    choice = random.choice(coins)
+    window.update()
+    if choice == 1:
+        window.update()
+        speak("Sir, its head")
+    elif choice == 2:
+        window.update()
+        speak("Sir, its tails")
+        window.update()
+    window.update()
+ 
+def rollAdice():
+    dice = [1,2,3,4,5,6]
+    value = random.choice(dice)
+    if value == 1:
+        speak("Sir, its 1 on dice")
+    elif value == 2:
+        speak("Sir, its 2 on dice ")
+    elif value == 3:
+        speak("Sir, its 3 on dice ")
+    elif value == 4:
+        speak("Sir, its 4 on dice ")
+    elif value == 5:
+        speak("Sir, its 5 on dice ")
+    elif value == 6:
+        speak("Sir, its 6 on dice ")       
+        
+def takeCommand(event = " "):
      #It takes mic input from user and returns string output
+     window.update()
      r=sr.Recognizer()
+     print("Listening...")
      var.set("Listening...")
      window.update()
      with sr.Microphone() as source:
@@ -66,9 +107,15 @@ def takeCommand(event):
 
          try:
              window.update()
+             var.set("Recognizing...")
+             print("Recognizing...")
+             window.update()
              audio = r.recognize_google(audio, language='en-in')
              window.update()
              query=audio.lower()
+             window.update()
+             var.set("Speaking...")
+             print(query)
              
 
          except Exception as e:
@@ -77,12 +124,26 @@ def takeCommand(event):
             window.update()
             query=""
 
-         if 'alex' in query:
-            var.set("Recognizing...")
+         if 'who are you' in query:
             window.update()
+            var.set("Speaking...")
             wishMe()
             window.update()
             var.set("")
+         
+         elif "toss a coin" in query:
+            window.update()
+            var.set("Speaking...")
+            tossAcoin()
+            window.update()
+            var.set("")
+         
+         
+         elif "roll a dice" in query:
+                window.update()
+                rollAdice()
+                window.update()
+                var.set("")
          
          elif 'youtube' in query:
             window.update()
@@ -90,6 +151,14 @@ def takeCommand(event):
             window.update()
             webbrowser.open("youtube.com")
             var.set("")
+            window.update() 
+            
+         elif "joke" in query:
+            window.update()
+            speak(pyjokes.get_joke())
+            window.update()
+            var.set("")
+            
 
          elif 'news' in query:
             window.update()
@@ -430,7 +499,16 @@ def takeCommand(event):
                speak("Opening adobe photoshop")
                window.update()
             var.set("")
-
+            
+         elif "made you":
+                window.update()
+                speak("I was born when many bright minds")
+                window.update()
+                speak("like Azim ,Rohan ,Arkaan ,Abuzar")
+                window.update()
+                speak("came together to create an assistant, just for you")
+                window.update()
+                var.set("")
          elif 'instagram' in query:
             window.update()
             if windowsapps.find_app('instagram')=="Application not found!":
@@ -505,7 +583,9 @@ def takeCommand(event):
                speak("Opening telegram")
                window.update()
             var.set("")
-
+            
+         elif "my name" in query:
+                speak("Of course! You said your name is arkaan. You are wonderful human being, and I am your assistant")
          elif 'powershell' in query:
             window.update()
             if windowsapps.find_app('powershell')=="Application not found!":
@@ -611,6 +691,19 @@ def takeCommand(event):
                window.update()
             var.set("")
 
+         elif "thank you" in query:
+                window.update()
+                speak("It is pleasure to help")
+                var.set("")
+         elif "sleep" in query:
+                window.update()
+                speak("Ok sir, as your wish")
+                var.set("")
+                exit()
+         elif "good night" in query:
+                window.update()
+                speak("Good Night Sir, Sweet Dreams")
+                exit()
          elif 'premiere' in query:
             window.update()
             if windowsapps.find_app('adobe premiere pro')=="Application not found!":
@@ -630,13 +723,16 @@ def takeCommand(event):
              window.update()
              speak("I did not understand that")
              var.set("")
-        
+
 def show_info():
        global info
        info = Toplevel(window)
        info.title("Information")
        info.geometry("250x250")
        info.resizable(False,False)
+       info_info = "Alex is made by\nAZIM \nROHAN \nARKAAN \nABUZAR"
+       info_label = Label(info, text = info_info)
+       info_label.pack(anchor= "n")
        ok_button = Button(info, command = info.destroy, text = "OK").pack(anchor="s", side = BOTTOM)
 
 #Opens window on click ? button  
@@ -644,17 +740,20 @@ def show_help():
        global help 
        help = Toplevel(window)
        help.title("Help")
-       help.geometry("250x250")
+       help.geometry("270x250")
        help.resizable(False,False)
+       help_info = "1. Click on power button to start\n 2. Use Ctrl+m to acces power button"
+       help_label = Label(help, text = help_info,font = ("ALGERIAN", 10, BOLD))
+       help_label.pack(anchor = "n")
        ok_button = Button(help, command = help.destroy, text = "OK", pady = 10).pack(anchor="s", side = BOTTOM)
       
-
+      
 # WIDGETS HERE
 icons=PhotoImage(file="Images\power.png")
 activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
-window.bind('<Control-i>',takeCommand)
+window.bind('<Control-m>',takeCommand)
 
-activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
+#activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
 
 
 activate.place(x=160,y=200)
