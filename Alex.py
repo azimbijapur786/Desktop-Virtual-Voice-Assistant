@@ -3,8 +3,9 @@ from email.mime import image
 from fileinput import filename
 from json.tool import main
 from multiprocessing.sharedctypes import Value
-from tkinter.font import BOLD
+import tkinter
 from winreg import QueryInfoKey
+import Images
 import pyttsx3
 import datetime
 import speech_recognition as sr
@@ -749,6 +750,9 @@ def show_help(event = " "):
       
       
 # WIDGETS HERE
+#Background Image
+bg_image = PhotoImage(file = "Images\\background.png")
+bg_label = Label(window, image = bg_image).pack()
 icons=PhotoImage(file="Images\power.png")
 activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
 window.bind('<Control-m>',takeCommand)
@@ -776,13 +780,16 @@ lis=Label(window,textvariable=var)
 
 lis.place(x=170,y=300)
 
+
 #About Button
 about_image = PhotoImage(file = "Images\info.png")
-about_button = Button(window,image = about_image,relief=FLAT, command = show_info).pack(anchor= "ne")
+about_button = Button(window,image = about_image,relief=FLAT, command = show_info)
+about_button.pack(anchor= "ne")
 window.bind('<Control-i>',show_info)
 #Help Button
 help_image = PhotoImage(file = "Images\help.png")
-help_button = Button(window, image = help_image,relief=FLAT, command= show_help).pack(anchor= "ne")
+help_button = Button(window, image = help_image,relief=FLAT, command= show_help)
+help_button.pack(anchor= "ne")
 window.bind('<Control-h>',show_help)
 
 window.mainloop() 
