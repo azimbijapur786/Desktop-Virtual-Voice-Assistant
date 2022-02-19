@@ -14,6 +14,8 @@ import webbrowser
 import windowsapps
 import random
 import pyjokes
+import threading
+import time
 from tkinter import * 
 
 engine=pyttsx3.init('sapi5')
@@ -211,7 +213,7 @@ def takeCommand(event = " "):
 
          elif 'whatsapp' in query:
             window.update()
-            speak("opening whatsapp ")
+            speak("opening whatsapp , please wait")
             window.update()
             webbrowser.open("https://web.whatsapp.com")
             window.update()
@@ -255,7 +257,7 @@ def takeCommand(event = " "):
                window.update()
             else:
                window.update()
-               speak("opening Visual studio code ")
+               speak("opening Visual studio code , please wait")
                window.update()
                windowsapps.open_app("Visual Studio Code")
                window.update()
@@ -500,16 +502,6 @@ def takeCommand(event = " "):
                speak("Opening adobe photoshop")
                window.update()
             var.set("")
-            
-         elif "made you":
-                window.update()
-                speak("I was born when many bright minds")
-                window.update()
-                speak("like Azim ,Rohan ,Arkaan ,Abuzar")
-                window.update()
-                speak("came together to create an assistant, just for you")
-                window.update()
-                var.set("")
          elif 'instagram' in query:
             window.update()
             if windowsapps.find_app('instagram')=="Application not found!":
@@ -587,6 +579,7 @@ def takeCommand(event = " "):
             
          elif "my name" in query:
                 speak("Of course! You said your name is arkaan. You are wonderful human being, and I am your assistant")
+                var.set("")
          elif 'powershell' in query:
             window.update()
             if windowsapps.find_app('powershell')=="Application not found!":
@@ -693,18 +686,18 @@ def takeCommand(event = " "):
             var.set("")
 
          elif "thank you" in query:
-                window.update()
-                speak("It is pleasure to help")
-                var.set("")
+               window.update()
+               speak("It is pleasure to help")
+               var.set("")
          elif "sleep" in query:
-                window.update()
-                speak("Ok sir, as your wish")
-                var.set("")
-                exit()
+               window.update()
+               speak("Ok sir, as your wish")
+               var.set("")
+               exit()
          elif "good night" in query:
-                window.update()
-                speak("Good Night Sir, Sweet Dreams")
-                exit()
+               window.update()
+               speak("Good Night Sir, Sweet Dreams")
+               exit()
          elif 'premiere' in query:
             window.update()
             if windowsapps.find_app('adobe premiere pro')=="Application not found!":
@@ -744,15 +737,15 @@ def show_help(event = " "):
        help.geometry("270x250")
        help.resizable(False,False)
        help_info = "1. Click on power button to start\n 2. Use Ctrl+m to acces power button"
-       help_label = Label(help, text = help_info,font = ("ALGERIAN", 10, BOLD))
+       help_label = Label(help, text = help_info,font = ("ALGERIAN", 10))
        help_label.pack(anchor = "n")
        ok_button = Button(help, command = help.destroy, text = "OK", pady = 10).pack(anchor="s", side = BOTTOM)
       
       
 # WIDGETS HERE
 #Background Image
-bg_image = PhotoImage(file = "Images\\background.png")
-bg_label = Label(window, image = bg_image).pack()
+# bg_image = PhotoImage(file = "Images\\background.png")
+# bg_label = Label(window, image = bg_image).pack()
 icons=PhotoImage(file="Images\power.png")
 activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
 window.bind('<Control-m>',takeCommand)
@@ -792,5 +785,11 @@ help_button = Button(window, image = help_image,relief=FLAT, command= show_help)
 help_button.pack(anchor= "ne")
 window.bind('<Control-h>',show_help)
 
-window.mainloop() 
-   
+#window.mainloop()
+# Let's do some multi threading
+t1 = threading.Thread(target=takeCommand)
+t2 = threading.Thread(target =window.mainloop())
+t1.start()
+t2.start()
+t1.join()
+t2.join()
