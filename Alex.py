@@ -17,33 +17,33 @@ import pyjokes
 import threading
 import time
 from tkinter import * 
+global var
 
 engine=pyttsx3.init('sapi5')
 
 voices=engine.getProperty('voices')
 
-#print(voices[0].id)
-
 engine.setProperty('voice',voices[0].id)
 
-# Window Declaration Here
+#Windows Initialization
+
 window =Tk()
-window.geometry("400x600")
+window.geometry("400x600+550+100")
 window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
-
 window.iconbitmap('robot.ico')
 
-global var
+#For Label Text
 
 var=StringVar()
 
+#Making it speak
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
     
-
+#Some Trivial commands
 def wishMe():
     hour=int(datetime.datetime.now().hour)
 
@@ -60,10 +60,6 @@ def wishMe():
     window.update()
     speak("I am Alex, The virtual voice assistant ,and i'm here to assist you with variety of tasks, since the best i can, 24 hours a day 7 days a week, importing all preferences from herman to base")
     window.update()
-    speak("Sir Please tell me how may I help you")
-    window.update()
-    
-    
     
 def tossAcoin():
     window.update()
@@ -94,9 +90,10 @@ def rollAdice():
         speak("Sir, its 5 on dice ")
     elif value == 6:
         speak("Sir, its 6 on dice ")       
+
+#Taking user input
         
 def takeCommand(event = " "):
-     #It takes mic input from user and returns string output
      window.update()
      r=sr.Recognizer()
      print("Listening...")
@@ -127,6 +124,8 @@ def takeCommand(event = " "):
             window.update()
             query=""
 
+#Trivial commands
+
          if 'who are you' in query:
             window.update()
             var.set("Speaking...")
@@ -143,11 +142,29 @@ def takeCommand(event = " "):
          
          
          elif "roll a dice" in query:
-                window.update()
-                rollAdice()
-                window.update()
-                var.set("")
+            window.update()
+            rollAdice()
+            window.update()
+            var.set("")
          
+         elif "joke" in query:
+            window.update()
+            speak(pyjokes.get_joke())
+            window.update()
+            var.set("")
+         
+         elif "thank you" in query:
+            window.update()
+            speak("It is pleasure to help")
+            var.set("")
+
+         elif "good night" in query:
+            window.update()
+            speak("Good Night Sir, Sweet Dreams")
+            exit()
+         
+ #Web based commands
+
          elif 'youtube' in query:
             window.update()
             speak("opening youtube ")
@@ -155,13 +172,6 @@ def takeCommand(event = " "):
             webbrowser.open("youtube.com")
             var.set("")
             window.update() 
-            
-         elif "joke" in query:
-            window.update()
-            speak(pyjokes.get_joke())
-            window.update()
-            var.set("")
-            
 
          elif 'news' in query:
             window.update()
@@ -243,12 +253,15 @@ def takeCommand(event = " "):
             window.update()
             var.set("")
 
+#Time command
          elif 'time' in query:
             window.update()
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir the time is {strTime}")
             window.update()
             var.set("")
+         
+#System commands
 
          elif 'code' in query:
             if windowsapps.find_app('Visual Studio Code')=="Application not found!":
@@ -502,6 +515,7 @@ def takeCommand(event = " "):
                speak("Opening adobe photoshop")
                window.update()
             var.set("")
+
          elif 'instagram' in query:
             window.update()
             if windowsapps.find_app('instagram')=="Application not found!":
@@ -682,15 +696,6 @@ def takeCommand(event = " "):
                window.update()
             var.set("")
 
-         elif "thank you" in query:
-               window.update()
-               speak("It is pleasure to help")
-               var.set("")
-
-         elif "good night" in query:
-               window.update()
-               speak("Good Night Sir, Sweet Dreams")
-               exit()
          elif 'premiere' in query:
             window.update()
             if windowsapps.find_app('adobe premiere pro')=="Application not found!":
@@ -710,41 +715,37 @@ def takeCommand(event = " "):
              window.update()
              speak("I did not understand that")
              var.set("")
+         
+#Function for About button
+imgBackButton=PhotoImage(file="Images\\back.png")
+
+def goBack(event=" "):
+       info.destroy()
+       window.deiconify()
 
 def show_info(event = " "):
        global info
        info = Toplevel(window)
-       info.title("Information")
-       info.geometry("250x250")
+       info.title("About")
+       info.geometry("400x600+550+100")
        info.resizable(False,False)
-       info_info = "Alex is made by\nAZIM \nROHAN \nARKAAN \nABUZAR"
+       window.withdraw()
+       info_info = "\n\n\n\nAlex is your personalized desktop\n assistant which assists you in your \n daily computing tasks thereby increasing\n efficiency at work\n\n It is developed by Computer Engineering \n Students of M.H.Saboo Siddik College\n of Engineering,Mumbai:\n\n Rohan Bhabhal\nAzim Ahmed Bijapur\nArkaan Khan\nAbuzar Shaikh\n\nUnder the guidance of :\nProf.Anand Bali,\nAssistant Professor,Mhssce"
        info_label = Label(info, text = info_info)
-       info_label.pack(anchor= "n")
-       ok_button = Button(info, command = info.destroy, text = "OK").pack(anchor="s", side = BOTTOM)
+       info_label.config(font='Calibri 14')
+       info_label.pack(anchor= "n")  
+       back_button = Button(info, command =goBack,relief=FLAT,image=imgBackButton,text="back",height=40,width=40)
+       back_button.place(x=350,y=20)
+       info.iconbitmap('robot.ico')
+       
+      
+# Gui functionality
 
-#Opens window on click ? button  
-def show_help(event = " "):
-       global help 
-       help = Toplevel(window)
-       help.title("Help")
-       help.geometry("270x250")
-       help.resizable(False,False)
-       help_info = "1. Click on power button to start\n 2. Use Ctrl+m to acces power button"
-       help_label = Label(help, text = help_info,font = ("ALGERIAN", 10))
-       help_label.pack(anchor = "n")
-       ok_button = Button(help, command = help.destroy, text = "OK", pady = 10).pack(anchor="s", side = BOTTOM)
-      
-      
-# WIDGETS HERE
-#Background Image
-# bg_image = PhotoImage(file = "Images\\background.png")
-# bg_label = Label(window, image = bg_image).pack()
 icons=PhotoImage(file="Images\power.png")
+
 activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
+
 window.bind('<Control-m>',takeCommand)
-
-#activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
-
 
 activate.place(x=160,y=200)
 
@@ -766,21 +767,14 @@ lis=Label(window,textvariable=var)
 
 lis.place(x=170,y=300)
 
-
 #About Button
 about_image = PhotoImage(file = "Images\info.png")
+
 about_button = Button(window,image = about_image,relief=FLAT, command = show_info)
+
 about_button.pack(anchor= "ne")
+
 window.bind('<Control-i>',show_info)
-#Help Button
-help_image = PhotoImage(file = "Images\help.png")
-help_button = Button(window, image = help_image,relief=FLAT, command= show_help)
-help_button.pack(anchor= "ne")
-window.bind('<Control-h>',show_help)
 
 window.mainloop()
-# Let's do some multi threading
-t1 = threading.Thread(target=takeCommand)
-t1.start()
-
 
