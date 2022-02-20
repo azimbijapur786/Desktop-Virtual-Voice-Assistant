@@ -576,10 +576,7 @@ def takeCommand(event = " "):
                speak("Opening telegram")
                window.update()
             var.set("")
-            
-         elif "my name" in query:
-                speak("Of course! You said your name is arkaan. You are wonderful human being, and I am your assistant")
-                var.set("")
+   
          elif 'powershell' in query:
             window.update()
             if windowsapps.find_app('powershell')=="Application not found!":
@@ -689,11 +686,7 @@ def takeCommand(event = " "):
                window.update()
                speak("It is pleasure to help")
                var.set("")
-         elif "sleep" in query:
-               window.update()
-               speak("Ok sir, as your wish")
-               var.set("")
-               exit()
+
          elif "good night" in query:
                window.update()
                speak("Good Night Sir, Sweet Dreams")
@@ -785,11 +778,9 @@ help_button = Button(window, image = help_image,relief=FLAT, command= show_help)
 help_button.pack(anchor= "ne")
 window.bind('<Control-h>',show_help)
 
-#window.mainloop()
+window.mainloop()
 # Let's do some multi threading
 t1 = threading.Thread(target=takeCommand)
-t2 = threading.Thread(target =window.mainloop())
 t1.start()
-t2.start()
-t1.join()
-t2.join()
+
+
