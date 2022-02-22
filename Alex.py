@@ -5,6 +5,8 @@ from json.tool import main
 from multiprocessing.sharedctypes import Value
 import tkinter
 from winreg import QueryInfoKey
+
+from pyparsing import White
 import Images
 import pyttsx3
 import datetime
@@ -42,6 +44,9 @@ y = (screen_height/2) - (app_height/2)
 #window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
+bgImg=PhotoImage(file="Images/Blue4.png")
+Back_Label=Label(window,image=bgImg)
+Back_Label.place(x=0,y=0)
 
 window.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
 
@@ -124,7 +129,7 @@ def takeCommand(event = " "):
              window.update()
              audio = r.recognize_google(audio, language='en-in')
              window.update()
-             query=audio.lower()
+             query=audio.lower()           
              window.update()
              var.set("Speaking...")
              print(query)
@@ -137,7 +142,7 @@ def takeCommand(event = " "):
             query=""
 
 #Trivial commands
-
+      
          if 'who are you' in query:
             window.update()
             var.set("Speaking...")
@@ -483,7 +488,7 @@ def takeCommand(event = " "):
                window.update()
             var.set("")
 
-         elif 'pictures' in query:
+         elif 'picture' in query:
             window.update()
             if windowsapps.find_app('photos')=="Application not found!":
                window.update()
