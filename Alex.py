@@ -5,7 +5,10 @@ import webbrowser
 import windowsapps
 import random
 from tkinter import * 
+
 global var
+
+#Text to speech 
 
 engine=pyttsx3.init('sapi5')
 
@@ -13,22 +16,19 @@ voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
 
-
 #Windows Initialization
 
 window =Tk()
-# App
+
 app_width = 400
 app_height = 600
 
-# Screen
 screen_width = window.winfo_width()
 screen_height = window.winfo_height()
 x = (screen_width/2) - (app_width/2)
 y = (screen_height/2) - (app_height/2)
 
-
-#window.resizable(False,False)
+window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
 bgImg=PhotoImage(file="Images/Blue4.png")
@@ -109,9 +109,6 @@ def takeCommand(event = " "):
             window.update()
             query=""
 
-#Trivial commands
-
-         
          if "toss a coin" in query:
             window.update()
             var.set("Speaking...")
@@ -666,6 +663,7 @@ def takeCommand(event = " "):
                window.update()
                speak("Opening adobe premiere pro")
                window.update()
+               
             var.set("")
 
          else:
