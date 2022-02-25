@@ -1,23 +1,9 @@
-from cgitb import text
-from email.mime import image
-from fileinput import filename
-from json.tool import main
-from multiprocessing.sharedctypes import Value
-import tkinter
-from winreg import QueryInfoKey
-
-from pyparsing import White
-import Images
 import pyttsx3
 import datetime
 import speech_recognition as sr
-import wikipedia
 import webbrowser
 import windowsapps
 import random
-import pyjokes
-import threading
-import time
 from tkinter import * 
 global var
 
@@ -26,6 +12,7 @@ engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
+
 
 #Windows Initialization
 
@@ -42,6 +29,10 @@ Back_Label.place(x=0,y=0)
 
 var=StringVar()
 
+# Exit commands list
+
+exitCommands=["quit","bye"]
+
 #Making it speak
 
 def speak(audio):
@@ -49,22 +40,6 @@ def speak(audio):
     engine.runAndWait()
     
 #Some Trivial commands
-def wishMe():
-    hour=int(datetime.datetime.now().hour)
-
-    if hour>=0 and hour<12:
-        speak("Good Morning! Sir")
-
-    elif hour>=12 and hour<17:
-        speak("Good Afternoon! Sir")
-
-    else:
-        speak("Good Evening Sir!")
-        window.update()
-    speak("Allow me to introduce myself")
-    window.update()
-    speak("I am Alex, The virtual voice assistant ,and i'm here to assist you with variety of tasks, since the best i can, 24 hours a day 7 days a week, importing all preferences from herman to base")
-    window.update()
     
 def tossAcoin():
     window.update()
@@ -107,7 +82,6 @@ def takeCommand(event = " "):
      with sr.Microphone() as source:
          r.pause_threshold=0.8
          r.energy_threshold=400
-         r.adjust_for_ambient_noise(source,duration=1)
          audio=r.listen(source)
 
          try:
@@ -130,15 +104,9 @@ def takeCommand(event = " "):
             query=""
 
 #Trivial commands
-      
-         if 'who are you' in query:
-            window.update()
-            var.set("Speaking...")
-            wishMe()
-            window.update()
-            var.set("")
+
          
-         elif "toss a coin" in query:
+         if "toss a coin" in query:
             window.update()
             var.set("Speaking...")
             tossAcoin()
@@ -151,23 +119,13 @@ def takeCommand(event = " "):
             rollAdice()
             window.update()
             var.set("")
-         
-         elif "joke" in query:
-            window.update()
-            speak(pyjokes.get_joke())
-            window.update()
-            var.set("")
-         
+
          elif "thank you" in query:
             window.update()
-            speak("It is pleasure to help")
-            var.set("")
-
-         elif "good night" in query:
+            speak("Always my pleasure")
             window.update()
-            speak("Good Night Sir, Sweet Dreams")
             exit()
-         
+
  #Web based commands
 
          elif 'youtube' in query:
@@ -213,18 +171,6 @@ def takeCommand(event = " "):
             webbrowser.open("google.com")
             window.update()
             var.set("")
-
-         elif 'wikipedia' in query:
-             var.set("")
-             window.update()
-             speak('Searching Wikipedia...')
-             query = query.replace("wikipedia","")
-             results = wikipedia.summary(query,sentences=2)
-             window.update()
-             speak("According to Wikipedia ")
-             window.update()
-             speak(results)
-             window.update()
 
          elif 'whatsapp' in query:
             window.update()
@@ -721,7 +667,8 @@ def takeCommand(event = " "):
              speak("I did not understand that")
              var.set("")
          
-#Function for About button
+#Function for About and Back button
+
 imgBackButton=PhotoImage(file="Images\\back.png")
 
 def goBack(event=" "):
@@ -772,7 +719,6 @@ lis=Label(window,textvariable=var)
 
 lis.place(x=170,y=300)
 
-#About Button
 about_image = PhotoImage(file = "Images\info.png")
 
 about_button = Button(window,image = about_image,relief=FLAT, command = show_info)
