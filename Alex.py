@@ -17,13 +17,25 @@ engine.setProperty('voice',voices[0].id)
 #Windows Initialization
 
 window =Tk()
-window.geometry("400x600+550+100")
-window.resizable(False,False)
+# App
+app_width = 400
+app_height = 600
+
+# Screen
+screen_width = window.winfo_width()
+screen_height = window.winfo_height()
+x = (screen_width/2) - (app_width/2)
+y = (screen_height/2) - (app_height/2)
+
+
+#window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
 bgImg=PhotoImage(file="Images/Blue4.png")
 Back_Label=Label(window,image=bgImg)
 Back_Label.place(x=0,y=0)
+
+window.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
 
 #For Label Text
 
@@ -682,12 +694,13 @@ def show_info(event = " "):
        info.geometry("400x600+550+100")
        info.resizable(False,False)
        window.withdraw()
+       back_button = Button(info, command =goBack,relief=FLAT,image=imgBackButton)
+       #back_button.place(x=350,y=20)
+       back_button.pack(anchor ="nw", side = TOP)
        info_info = "\n\n\n\nAlex is your personalized desktop\n assistant which assists you in your \n daily computing tasks thereby increasing\n efficiency at work\n\n It is developed by Computer Engineering \n Students of M.H.Saboo Siddik College\n of Engineering,Mumbai:\n\n Rohan Bhabhal\nAzim Ahmed Bijapur\nArkaan Khan\nAbuzar Shaikh\n\nUnder the guidance of :\nProf.Anand Bali,\nAssistant Professor,Mhssce"
        info_label = Label(info, text = info_info)
        info_label.config(font='Calibri 14')
-       info_label.pack(anchor= "n")  
-       back_button = Button(info, command =goBack,relief=FLAT,image=imgBackButton,text="back",height=40,width=40)
-       back_button.place(x=350,y=20)
+       info_label.pack(anchor= "n")
        info.iconbitmap('robot.ico')
        
       
