@@ -35,15 +35,11 @@ bgImg=PhotoImage(file="Images/Blue4.png")
 Back_Label=Label(window,image=bgImg)
 Back_Label.place(x=0,y=0)
 
-window.geometry(f"{app_width}x{app_height}+{int(x)}+{int(y)}")
+window.geometry("400x600+550+100")
 
 #For Label Text
 
 var=StringVar()
-
-# Exit commands list
-
-exitCommands=["quit","bye"]
 
 #Making it speak
 
@@ -86,27 +82,25 @@ def rollAdice():
 #Taking user input
         
 def takeCommand(event = " "):
+     var.set("Listening...")
      window.update()
      r=sr.Recognizer()
-     print("Listening...")
-     var.set("Listening...")
      window.update()
      with sr.Microphone() as source:
          r.pause_threshold=0.8
          r.energy_threshold=400
+         r.non_speaking_duration=0.1
          audio=r.listen(source)
 
          try:
              window.update()
              var.set("Recognizing...")
-             print("Recognizing...")
              window.update()
              audio = r.recognize_google(audio, language='en-in')
              window.update()
              query=audio.lower()           
              window.update()
              var.set("Speaking...")
-             print(query)
              
 
          except Exception as e:
