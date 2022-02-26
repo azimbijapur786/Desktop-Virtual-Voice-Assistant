@@ -4,6 +4,7 @@ import speech_recognition as sr
 import webbrowser
 import windowsapps
 import random
+import psutil
 from tkinter import * 
 
 global var
@@ -46,7 +47,17 @@ var=StringVar()
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-    
+
+# Battery 
+
+battery = psutil.sensors_battery()
+percent = battery.percent
+if (percent<20):
+    var.set("Battery Low!!")
+
+else:
+   var.set("Battery percent: "+str(percent)+"%")
+
 #Some Trivial commands
     
 def tossAcoin():
@@ -130,7 +141,7 @@ def takeCommand(event = " "):
             rollAdice()
             window.update()
             var.set("")
-
+         
          elif "thank you" in query:
             window.update()
             speak("Always my pleasure")
@@ -463,6 +474,14 @@ def takeCommand(event = " "):
                window.update()
             var.set("")
 
+         elif 'play music' in query:
+            window.update()
+            speak("Opening media player")
+            window.update()
+            windowsapps.open_app("windows media player")
+            window.update()
+            var.set(" ")
+
          elif 'photoshop' in query:
             window.update()
             if windowsapps.find_app('adobe photoshop')=="Application not found!":
@@ -731,7 +750,7 @@ ttl.config(bg='green')
 
 lis=Label(window,textvariable=var)
 
-lis.place(x=170,y=300)
+lis.place(x=160,y=300)
 
 about_image = PhotoImage(file = "Images\info.png")
 
