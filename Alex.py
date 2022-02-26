@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import pyttsx3
 import datetime
 import speech_recognition as sr
@@ -7,7 +8,9 @@ import random
 import psutil
 from tkinter import * 
 
+
 global var
+global varBat
 
 #Text to speech 
 
@@ -33,14 +36,14 @@ window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
 bgImg=PhotoImage(file="Images/Blue4.png")
-Back_Label=Label(window,image=bgImg)
+Back_Label=Label(window)
 Back_Label.place(x=0,y=0)
-
 window.geometry("400x600+550+100")
 
 #For Label Text
 
 var=StringVar()
+varBat=StringVar()
 
 #Making it speak
 
@@ -53,10 +56,10 @@ def speak(audio):
 battery = psutil.sensors_battery()
 percent = battery.percent
 if (percent<20):
-    var.set("Battery Low!!")
+    varBat.set("Battery Low !! "+str(percent)+"%")
 
 else:
-   var.set("Battery percent: "+str(percent)+"%")
+   varBat.set("Battery percent: "+str(percent)+"%")
 
 #Some Trivial commands
     
@@ -94,7 +97,7 @@ def rollAdice():
         
 def takeCommand(event = " "):
      window.update()
-     var.set("Listening...")
+     var.set("....")
      window.update()
      r=sr.Recognizer()
      window.update()
@@ -112,13 +115,12 @@ def takeCommand(event = " "):
 
          try:
              window.update()
-             var.set("Recognizing...")
+             var.set(".....")
              window.update()
              audio = r.recognize_google(audio, language='en-in')
              window.update()
              query=audio.lower()           
              window.update()
-             var.set("Speaking...")
              window.update()
              
 
@@ -701,7 +703,7 @@ def takeCommand(event = " "):
          
 #Function for About and Back button
 
-imgBackButton=PhotoImage(file="Images\\back.png")
+imgBackButton=PhotoImage(file="Images\\back2.png")
 
 def goBack(event=" "):
        info.destroy()
@@ -726,37 +728,36 @@ def show_info(event = " "):
       
 # Gui functionality
 
-icons=PhotoImage(file="Images\power.png")
 
-activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70)
+icons=PhotoImage(file="Images\\mic.png")
+
+activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70,anchor=CENTER,border=5,borderwidth=5)
 
 window.bind('<Control-m>',takeCommand)
 
-activate.place(x=160,y=200)
+activate.place(x=160,y=230)
 
-activate.config()
+status=Label(window,text="Your Personal Voice Assistant",font='Forte 15')
 
-status=Label(window,text="Your Personal Voice Assistant",font='Forte 13',fg='white')
+status.place(x=67,y=450)
 
-status.place(x=100,y=350)
+ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER)
 
-status.config(bg="green")
+ttl.place(x=127,y=100)
 
-ttl=Label(window,text="Alex",font='Forte 30',fg='white')
+lis=Label(window,textvariable=var,padx=12,pady=5,anchor=CENTER,font='Forte 40')
 
-ttl.place(x=155,y=100)
+lis.place(x=158,y=330)
 
-ttl.config(bg='green')
+batteryStatus=Label(window,textvariable=varBat,font="Aparajita 16")
 
-lis=Label(window,textvariable=var)
+batteryStatus.place(x=11,y=9)
 
-lis.place(x=160,y=300)
-
-about_image = PhotoImage(file = "Images\info.png")
+about_image = PhotoImage(file = "Images\info2.png")
 
 about_button = Button(window,image = about_image,relief=FLAT, command = show_info)
 
-about_button.pack(anchor= "ne")
+about_button.pack(anchor="ne")
 
 window.bind('<Control-i>',show_info)
 
