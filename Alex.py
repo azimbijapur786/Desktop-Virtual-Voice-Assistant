@@ -82,15 +82,22 @@ def rollAdice():
 #Taking user input
         
 def takeCommand(event = " "):
+     window.update()
      var.set("Listening...")
      window.update()
      r=sr.Recognizer()
      window.update()
      with sr.Microphone() as source:
+         window.update()
          r.pause_threshold=0.8
+         window.update()
          r.energy_threshold=400
+         window.update()
          r.non_speaking_duration=0.1
+         window.update()
+         window.update()
          audio=r.listen(source)
+         window.update()
 
          try:
              window.update()
@@ -101,6 +108,7 @@ def takeCommand(event = " "):
              query=audio.lower()           
              window.update()
              var.set("Speaking...")
+             window.update()
              
 
          except Exception as e:
@@ -669,6 +677,7 @@ def takeCommand(event = " "):
          else:
              window.update()
              speak("I did not understand that")
+             window.update()
              var.set("")
          
 #Function for About and Back button
