@@ -6,6 +6,7 @@ import webbrowser
 import windowsapps
 import random
 import psutil
+import speedtest
 from tkinter import * 
 
 
@@ -229,10 +230,28 @@ def takeCommand(event = " "):
             var.set("")
 
 #Time command
+
          elif 'time' in query:
             window.update()
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir the time is {strTime}")
+            window.update()
+            var.set("")
+
+#Internet speed test        
+
+         elif 'internet speed' in query:
+            speak("Please wait")
+            window.update()
+            st = speedtest.Speedtest()
+            window.update()
+            speak("Checking download speed")
+            window.update()
+            speak("Your download speed is"+str(st.download()/10**6)+"Mbps")
+            window.update()
+            speak("Checking upload speed")
+            window.update()
+            speak("Your upload speed is"+str(st.upload()/10**6)+"Mbps")
             window.update()
             var.set("")
          
