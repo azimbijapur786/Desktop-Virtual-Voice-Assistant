@@ -247,11 +247,11 @@ def takeCommand(event = " "):
             window.update()
             speak("Checking download speed")
             window.update()
-            speak("Your download speed is"+str(st.download()/10**6)+"Mbps")
+            speak("Your download speed is"+str(int(st.download()/10**6))+"Mbps")
             window.update()
             speak("Checking upload speed")
             window.update()
-            speak("Your upload speed is"+str(st.upload()/10**6)+"Mbps")
+            speak("Your upload speed is"+str(int(st.upload()/10**6))+"Mbps")
             window.update()
             var.set("")
          
