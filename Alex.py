@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import pyttsx3
 import datetime
 import speech_recognition as sr
@@ -133,7 +132,6 @@ def takeCommand(event = " "):
 
          if "toss a coin" in query:
             window.update()
-            var.set("Speaking...")
             tossAcoin()
             window.update()
             var.set("")
