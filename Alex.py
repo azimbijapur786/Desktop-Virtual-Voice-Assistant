@@ -42,14 +42,20 @@ def speak(audio):
     engine.runAndWait()
 
 # Battery Status
+try:
 
-battery = psutil.sensors_battery()
-percent = battery.percent
-if (percent<20):
-    varBat.set("Battery Low !! "+str(percent)+"%")
+   battery = psutil.sensors_battery()
+   percent = battery.percent
 
-else:
-   varBat.set("Battery percent: "+str(percent)+"%")
+   if (percent<20):
+      varBat.set("Battery Low !! "+str(percent)+"%")
+
+   else:
+      varBat.set("Battery percent: "+str(percent)+"%")
+
+except Exception as f:
+   varBat.set("")
+
 
 #Some Trivial commands
     
