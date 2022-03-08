@@ -562,7 +562,7 @@ def takeCommand(event = " "):
             var.set("")
 
          elif 'xbox' in query:
-            if(windowsapps.find_app('xbox game bar')=="Application not found!":  
+            if(windowsapps.find_app('xbox game bar')=="Application not found!"):  
                speak("You do not have this application")
                 
             else:
@@ -679,4 +679,3 @@ about_button.pack(anchor="ne")
 window.bind('<Control-i>',show_info)
 
 window.mainloop()
-
