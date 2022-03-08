@@ -24,21 +24,20 @@ engine.setProperty('voice',voices[0].id)
 
 window =Tk()
 
-app_width = 400
-app_height = 600
+# app_width = 400
+# app_height = 600
 
-screen_width = window.winfo_width()
-screen_height = window.winfo_height()
-x = (screen_width/2) - (app_width/2)
-y = (screen_height/2) - (app_height/2)
+# screen_width = window.winfo_width()
+# screen_height = window.winfo_height()
+# x = (screen_width/2) - (app_width/2)
+# y = (screen_height/2) - (app_height/2)
 
 window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
 bgImg=PhotoImage(file="Images/Blue4.png")
-Back_Label=Label(window)
-Back_Label.place(x=0,y=0)
 window.geometry("400x600+550+100")
+window.config(bg='yellow')
 
 #For Label Text
 
@@ -748,31 +747,31 @@ def show_info(event = " "):
 
 icons=PhotoImage(file="Images\\mic.png")
 
-activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70,anchor=CENTER,border=5,borderwidth=5)
+activate=Button(window,text="Speak",command=takeCommand,relief=FLAT,image=icons,height=70,width=70,anchor=CENTER,border=5,borderwidth=5,bg='yellow')
 
 window.bind('<Control-m>',takeCommand)
 
 activate.place(x=160,y=230)
 
-status=Label(window,text="Your Personal Voice Assistant",font='Forte 15')
+status=Label(window,text="Your Personal Voice Assistant",font='Forte 15',bg='yellow')
 
 status.place(x=67,y=450)
 
-ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER)
+ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER,bg='yellow')
 
 ttl.place(x=127,y=100)
 
-lis=Label(window,textvariable=var,padx=12,pady=5,anchor=CENTER,font='Forte 40')
+lis=Label(window,textvariable=var,padx=12,pady=5,anchor=CENTER,font='Forte 40',bg='yellow')
 
 lis.place(x=158,y=330)
 
-batteryStatus=Label(window,textvariable=varBat,font="Aparajita 16")
+batteryStatus=Label(window,textvariable=varBat,font="Aparajita 16",bg='yellow')
 
 batteryStatus.place(x=11,y=9)
 
 about_image = PhotoImage(file = "Images\info2.png")
 
-about_button = Button(window,image = about_image,relief=FLAT, command = show_info)
+about_button = Button(window,image = about_image,relief=FLAT, command = show_info,bg='yellow')
 
 about_button.pack(anchor="ne")
 
