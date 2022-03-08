@@ -27,7 +27,6 @@ window =Tk()
 window.resizable(False,False)
 window.title("Alex- Virtual Voice Assistant")
 window.iconbitmap('robot.ico')
-bgImg=PhotoImage(file="Images/Blue4.png")
 window.geometry("400x600+550+100")
 window.config(bg='yellow')
 
