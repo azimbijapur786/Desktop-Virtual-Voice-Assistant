@@ -180,13 +180,6 @@ def takeCommand(event = " "):
 
             var.set("")
 
-         elif 'google' in query:
-             
-            speak("opening google ")
-             
-            webbrowser.open("google.com")
-             
-            var.set("")
 
          elif 'whatsapp' in query:
              
