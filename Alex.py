@@ -648,8 +648,6 @@ icons=PhotoImage(file="Images\\mic.png")
 
 activate=Button(window,text="Speak",command=start_cmd ,relief=FLAT,image=icons,height=70,width=70,anchor=CENTER,border=5,borderwidth=5,bg='yellow')
 
-window.bind('<Control-m>',takeCommand)
-
 activate.place(x=160,y=230)
 
 status=Label(window,text="Your Personal Voice Assistant",font='Forte 15',bg='yellow')
