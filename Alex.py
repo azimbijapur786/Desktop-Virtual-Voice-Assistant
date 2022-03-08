@@ -56,7 +56,6 @@ try:
 except Exception as f:
    varBat.set("")
 
-
 #Some Trivial commands
     
 def tossAcoin():
@@ -236,11 +235,11 @@ def takeCommand(event = " "):
              
             speak("Checking download speed")
              
-            speak("Your download speed is"+str(int(st.download()/10**6))+"Mbps")
+            speak("Your download speed is"+str(int(st.download()/10**6))+"Megabits per second")
              
             speak("Checking upload speed")
              
-            speak("Your upload speed is"+str(int(st.upload()/10**6))+"Mbps")
+            speak("Your upload speed is"+str(int(st.upload()/10**6))+"Megabits per second")
              
             var.set("")
          
