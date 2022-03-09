@@ -651,9 +651,9 @@ def show_info(event = " "):
 
 #Threading
 
-def start_about():
-   t1=threading.Thread(target=show_info)
-   t1.start()
+# def start_about():
+#    t1=threading.Thread(target=show_info)
+#    t1.start()
 
 def start_cmd():
    t2=threading.Thread(target=takeCommand)
@@ -685,7 +685,7 @@ batteryStatus.place(x=11,y=9)
 
 about_image = PhotoImage(file = "Images\info2.png")
 
-about_button = Button(window,image = about_image,relief=FLAT, command = start_about,bg='yellow')
+about_button = Button(window,image = about_image,relief=FLAT, command = show_info,bg='yellow')
 
 about_button.pack(anchor="ne")
 
