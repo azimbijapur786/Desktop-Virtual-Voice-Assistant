@@ -7,6 +7,8 @@ import windowsapps
 import random
 import psutil
 import speedtest
+import wolframalpha
+
 from tkinter import * 
 
 
@@ -20,6 +22,7 @@ engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
+engine.setProperty('rate',170)
 
 #Main Window Initialization
 
@@ -149,6 +152,18 @@ def takeCommand(event = " "):
              
             webbrowser.open("youtube.com")
 
+            var.set("")
+         
+         elif 'ask' in query:
+            speak('Always here to answer your questions')
+            client = wolframalpha.Client('GRL2AR-KL6GUV7K2R')
+            question=query.replace("I want to ask","")
+            res = client.query(question)
+            try:
+               answer = next(res.results).text
+               speak(answer)
+            except Exception as e:
+               speak("I did not understand that question")
             var.set("")
               
 
