@@ -396,6 +396,23 @@ def takeCommand(event = " "):
                 
             var.set("")
       
+         elif 'remember that' in query:
+            
+            remeberMsg = query.replace("remember that ","")
+            remeberMsg = remeberMsg.replace("alex","")
+            speak("okay I will remember that :"+remeberMsg)
+            remeber = open('memory.txt','w')
+            remeber.write(remeberMsg)
+            remeber.close()
+            var.set("")
+
+
+         elif 'what do you remember' in query:
+            remeber = open('memory.txt','r')
+            speak("You told me that:" + remeber.read())
+            var.set("")
+
+
          elif 'eclipse' in query:
              
             if windowsapps.find_app('eclipse')=="Application not found!":
