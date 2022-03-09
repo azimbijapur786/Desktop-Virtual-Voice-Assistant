@@ -8,7 +8,9 @@ import random
 import psutil
 import speedtest
 import wolframalpha
-
+import wikipedia
+import time
+import os
 from tkinter import * 
 
 
@@ -42,7 +44,10 @@ varBat=StringVar()
 
 def speak(audio):
     engine.say(audio)
-    engine.runAndWait()
+    try:
+      engine.runAndWait()
+    except Exception as e:
+       print("nothing much")
 
 # Battery Status
 try:
@@ -60,6 +65,7 @@ except Exception as f:
    varBat.set("")
 
 #Some Trivial commands
+
     
 def tossAcoin():
      
@@ -116,7 +122,9 @@ def takeCommand(event = " "):
               
              audio = r.recognize_google(audio, language='en-in')
               
-             query=audio.lower()           
+             query=audio.lower()         
+
+             print(query)  
               
          except Exception as e:
              
@@ -155,7 +163,7 @@ def takeCommand(event = " "):
             var.set("")
          
          elif 'ask' in query:
-            speak('Always here to answer your questions')
+            speak('Always here to answer your questions,give me a second')
             client = wolframalpha.Client('GRL2AR-KL6GUV7K2R')
             question=query.replace("I want to ask","")
             res = client.query(question)
@@ -230,6 +238,17 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://www.bing.com/search?q=weather&cvid=80b3646d80b745f3808c8e0549263256&aqs=edge.0.0l9.3156j0j1&pglt=43&FORM=ANSPA1&PC=EDGEDB")
              
+            var.set("")
+         
+         if 'wikipedia' in query:
+            speak('Searching Wikipedia...')
+            query =query.replace("wikipedia", "")
+            try:
+               results = wikipedia.summary(query, sentences=2)
+               speak("According to Wikipedia")
+               speak(results)
+            except Exception as e:
+               speak("I did not understand what to search for")
             var.set("")
 
 #Time command
@@ -615,6 +634,11 @@ def takeCommand(event = " "):
                 
                
             var.set("")
+         
+         elif 'power of' in query:
+            speak("Logging of the computer in 5 seconds")
+            time.sleep(5)
+            os.system("shutdown /s /t 1")
 
          else:
               
@@ -649,11 +673,7 @@ def show_info(event = " "):
        info_label.pack(anchor= "n")
        info.iconbitmap('robot.ico')
 
-#Threading
-
-# def start_about():
-#    t1=threading.Thread(target=show_info)
-#    t1.start()
+# Thread
 
 def start_cmd():
    t2=threading.Thread(target=takeCommand)
