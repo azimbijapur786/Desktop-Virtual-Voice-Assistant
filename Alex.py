@@ -16,6 +16,7 @@ from tkinter import *
 
 global var
 global varBat
+greet={'hello':'hey there','good morning':'good morning','good evening':'good evening','good afternoon':'good afternoon'}
 
 #Text to speech 
 
@@ -24,6 +25,7 @@ engine=pyttsx3.init('sapi5')
 voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
+
 engine.setProperty('rate',170)
 
 #Main Window Initialization
@@ -128,9 +130,9 @@ def takeCommand(event = " "):
               
          except Exception as e:
              
-            speak("Say that again please....")
+               speak("Say that again please....")
              
-            query=""
+               query=""
 
          if "toss a coin" in query:
              
@@ -147,10 +149,10 @@ def takeCommand(event = " "):
             
          
          elif "thank you" in query:
+
              
             speak("Always my pleasure")
              
-            exit()
 
  #Web based commands
 
@@ -161,11 +163,13 @@ def takeCommand(event = " "):
             webbrowser.open("youtube.com")
 
             var.set("")
+      
          
          elif 'ask' in query:
             speak('Always here to answer your questions,give me a second')
             client = wolframalpha.Client('GRL2AR-KL6GUV7K2R')
-            question=query.replace("I want to ask","")
+            qt=query
+            question=qt.replace("I want to ask","")
             res = client.query(question)
             try:
                answer = next(res.results).text
@@ -235,16 +239,17 @@ def takeCommand(event = " "):
          elif 'weather' in query:
              
             speak("showing weather news ")
-             
+
             webbrowser.open("https://www.bing.com/search?q=weather&cvid=80b3646d80b745f3808c8e0549263256&aqs=edge.0.0l9.3156j0j1&pglt=43&FORM=ANSPA1&PC=EDGEDB")
-             
+
             var.set("")
          
-         if 'wikipedia' in query:
+         elif 'wikipedia' in query:
             speak('Searching Wikipedia...')
-            query =query.replace("wikipedia", "")
+            qs=query
+            qw =qs.replace("wikipedia", "")
             try:
-               results = wikipedia.summary(query, sentences=2)
+               results = wikipedia.summary(qw, sentences=2)
                speak("According to Wikipedia")
                speak(results)
             except Exception as e:
@@ -299,7 +304,7 @@ def takeCommand(event = " "):
                speak("opening word ")
                windowsapps.open_app("Word")
                 
-               var.set("")
+            var.set("")
 
          elif 'powerpoint' in query:
              
@@ -398,9 +403,9 @@ def takeCommand(event = " "):
       
          elif 'remember that' in query:
             
-            remeberMsg = query.replace("remember that ","")
-            remeberMsg = remeberMsg.replace("alex","")
-            speak("okay I will remember that :"+remeberMsg)
+            qa=query
+            remeberMsg = qa.replace("remember that ","")
+            speak("okay I will remember that :")
             remeber = open('memory.txt','w')
             remeber.write(remeberMsg)
             remeber.close()
@@ -410,6 +415,7 @@ def takeCommand(event = " "):
          elif 'what do you remember' in query:
             remeber = open('memory.txt','r')
             speak("You told me that:" + remeber.read())
+            remeber.close()
             var.set("")
 
 
@@ -526,7 +532,7 @@ def takeCommand(event = " "):
                speak("Opening instagram") 
             var.set("")
 
-         elif 'one note' in query:
+         elif '1 note' in query:
              
             if windowsapps.find_app('onenote')=="Application not found!": 
                speak("You do not have this application")
@@ -656,12 +662,16 @@ def takeCommand(event = " "):
             speak("Logging of the computer in 5 seconds")
             time.sleep(5)
             os.system("shutdown /s /t 1")
-
+# Personal commands
+         
+         elif query in greet.keys():
+            speak(greet[query])
+            var.set("")
+            
          else:
-              
-             speak("I did not understand that")
-              
-             var.set("")
+            speak('I did not understand that')
+            var.set("")
+            
          
 #Function for About and Back button
 
