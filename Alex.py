@@ -16,6 +16,8 @@ from tkinter import *
 
 global var
 global varBat
+quests=('where')
+
 
 #Text to speech 
 
@@ -164,11 +166,11 @@ def takeCommand(event = " "):
             var.set("")
       
          
-         elif 'ask' in query:
+         elif 'tell me' in query:
             speak('Always here to answer your questions,give me a second')
             client = wolframalpha.Client('GRL2AR-KL6GUV7K2R')
-            qt=query
-            question=qt.replace("I want to ask","")
+            question=query.replace("tell me","")
+            print(question)
             res = client.query(question)
             try:
                answer = next(res.results).text
@@ -243,17 +245,6 @@ def takeCommand(event = " "):
 
             var.set("")
          
-         elif 'wikipedia' in query:
-            speak('Searching Wikipedia...')
-            qs=query
-            qw =qs.replace("wikipedia", "")
-            try:
-               results = wikipedia.summary(qw, sentences=2)
-               speak("According to Wikipedia")
-               speak(results)
-            except Exception as e:
-               speak("I did not understand what to search for")
-            var.set("")
 
 #Time command
 
@@ -531,7 +522,7 @@ def takeCommand(event = " "):
                speak("Opening instagram") 
             var.set("")
 
-         elif '1 note' in query:
+         elif 'one note' in query:
              
             if windowsapps.find_app('onenote')=="Application not found!": 
                speak("You do not have this application")
