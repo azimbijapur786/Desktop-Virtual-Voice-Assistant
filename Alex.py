@@ -16,7 +16,6 @@ from tkinter import *
 
 global var
 global varBat
-greet={'hello':'hey there','good morning':'good morning','good evening':'good evening','good afternoon':'good afternoon'}
 
 #Text to speech 
 
@@ -662,11 +661,7 @@ def takeCommand(event = " "):
             speak("Logging of the computer in 5 seconds")
             time.sleep(5)
             os.system("shutdown /s /t 1")
-# Personal commands
-         
-         elif query in greet.keys():
-            speak(greet[query])
-            var.set("")
+#Else
             
          else:
             speak('I did not understand that')
