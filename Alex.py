@@ -8,10 +8,11 @@ import random
 import psutil
 import speedtest
 import wolframalpha
-import wikipedia
 import time
 import os
+import screen_brightness_control
 from tkinter import * 
+
 
 
 global var
@@ -114,8 +115,8 @@ def takeCommand(event = " "):
           
          r.energy_threshold=400
           
-         r.non_speaking_duration=0.1
-          
+         r.non_speaking_duration=0.01
+
          audio=r.listen(source)
           
 
@@ -146,6 +147,24 @@ def takeCommand(event = " "):
              
             rollAdice()
              
+            var.set("")
+         
+         elif 'increase brightness' in query:
+            current=screen_brightness_control.get_brightness()
+            screen_brightness_control.set_brightness(current+10)
+            if current==100:
+               speak("Maximum brightness")
+            else:
+               speak("Increased")
+            var.set("")
+
+         elif 'decrease brightness' in query:
+            current=screen_brightness_control.get_brightness()
+            screen_brightness_control.set_brightness(current-10)
+            if current==0:
+               speak("Minimum brightness")
+            else:
+               speak("Decreased")
             var.set("")
             
          
@@ -652,6 +671,7 @@ def takeCommand(event = " "):
             speak("Logging of the computer in 5 seconds")
             time.sleep(5)
             os.system("shutdown /s /t 1")
+
 #Else
             
          else:
