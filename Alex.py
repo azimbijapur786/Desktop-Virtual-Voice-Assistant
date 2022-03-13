@@ -1,4 +1,3 @@
-from pydoc import cli
 import threading
 import pyttsx3
 import datetime
@@ -30,7 +29,7 @@ voices=engine.getProperty('voices')
 
 engine.setProperty('voice',voices[0].id)
 
-engine.setProperty('rate',170)
+engine.setProperty('rate',200)
 
 #Main Window Initialization
 
@@ -172,7 +171,6 @@ def takeCommand(event = " "):
          
          elif "thank you" in query:
 
-             
             speak("Always my pleasure")
              
 
@@ -535,16 +533,6 @@ def takeCommand(event = " "):
                speak("Opening instagram") 
             var.set("")
 
-         elif 'one note' in query:
-             
-            if windowsapps.find_app('onenote')=="Application not found!": 
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('onenote') 
-               speak("Opening onenote")  
-            var.set("")
 
          elif 'to do' in query:
              
