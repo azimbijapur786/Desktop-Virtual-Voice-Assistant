@@ -15,10 +15,9 @@ import screen_brightness_control
 from tkinter import * 
 
 
-
 global var
 global varBat
-quests=('where')
+
 
 pyglet.font.add_file('Forte.TTF')
 
