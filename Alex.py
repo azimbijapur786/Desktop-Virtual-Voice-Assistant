@@ -10,6 +10,7 @@ import speedtest
 import wolframalpha
 import time
 import os
+import pyglet
 import screen_brightness_control
 from tkinter import * 
 
@@ -18,6 +19,8 @@ from tkinter import *
 global var
 global varBat
 quests=('where')
+
+pyglet.font.add_file('Forte.TTF')
 
 
 #Text to speech 
