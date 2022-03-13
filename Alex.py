@@ -1,3 +1,4 @@
+from pydoc import cli
 import threading
 import pyttsx3
 import datetime
@@ -6,7 +7,6 @@ import webbrowser
 import windowsapps
 import random
 import psutil
-import speedtest
 import wolframalpha
 import time
 import os
@@ -279,18 +279,10 @@ def takeCommand(event = " "):
 #Internet speed test        
 
          elif 'internet speed' in query:
-            speak("Please wait")
-             
-            st = speedtest.Speedtest()
-             
-            speak("Checking download speed")
-             
-            speak("Your download speed is"+str(int(st.download()/10**6))+"Megabits per second")
-             
-            speak("Checking upload speed")
-             
-            speak("Your upload speed is"+str(int(st.upload()/10**6))+"Megabits per second")
-             
+            
+            speak("Lets check your internet speed")
+            webbrowser.open_new_tab('https://www.speedtest.net/')
+
             var.set("")
          
 #System commands
