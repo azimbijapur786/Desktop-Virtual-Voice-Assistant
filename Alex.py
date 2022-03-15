@@ -13,6 +13,7 @@ import pyglet
 import screen_brightness_control
 from tkinter import * 
 
+#Text for the labels
 
 global var
 global varBat
@@ -68,6 +69,7 @@ try:
 
 except Exception as f:
    varBat.set("")
+   
 
 #Some Trivial commands
 
@@ -114,9 +116,11 @@ def takeCommand(event = " "):
           
          r.pause_threshold=0.8
           
-         r.energy_threshold=400
+         r.energy_threshold=300
           
          r.non_speaking_duration=0.01
+
+         r.adjust_for_ambient_noise(source,1.2)
 
          audio=r.listen(source)
           
@@ -401,6 +405,8 @@ def takeCommand(event = " "):
                speak("Opening firefox")
                 
             var.set("")
+         
+         # Take some notes
       
          elif 'remember that' in query:
             
@@ -419,6 +425,7 @@ def takeCommand(event = " "):
             remeber.close()
             var.set("")
 
+         # System commands
 
          elif 'eclipse' in query:
              
@@ -522,17 +529,6 @@ def takeCommand(event = " "):
                 
             var.set("")
 
-         elif 'instagram' in query:
-             
-            if windowsapps.find_app('instagram')=="Application not found!":
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('instagram')
-               speak("Opening instagram") 
-            var.set("")
-
 
          elif 'to do' in query:
              
@@ -555,17 +551,6 @@ def takeCommand(event = " "):
                windowsapps.open_app('your phone')
                speak("Opening your phone")
                 
-            var.set("")
-
-         elif 'telegram' in query:
-             
-            if windowsapps.find_app('telegram')=="Application not found!": 
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('telegram')
-               speak("Opening telegram")
             var.set("")
    
          elif 'powershell' in query:
@@ -626,6 +611,8 @@ def takeCommand(event = " "):
                 
             var.set("")
 
+         # Video Editting software
+
          elif 'filmora' in query:
              
             if windowsapps.find_app('filmora')=="Application not found!":
@@ -645,8 +632,6 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('adobe premiere pro')
                speak("Opening adobe premiere pro")
-                
-               
             var.set("")
          
          elif 'power of' in query:
@@ -657,7 +642,6 @@ def takeCommand(event = " "):
 #Else
             
          else:
-            speak('I did not understand that')
             var.set("")
             
          
@@ -688,7 +672,7 @@ def show_info(event = " "):
        info_label.pack(anchor= "n")
        info.iconbitmap('robot.ico')
 
-# Thread
+# Threading
 
 def start_cmd():
    t2=threading.Thread(target=takeCommand)
