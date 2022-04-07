@@ -1,28 +1,23 @@
-import threading
+from random import randint
+from signal import signal
 import pyttsx3
+import random
 import datetime
+from regex import P
 import speech_recognition as sr
 import webbrowser
 import windowsapps
-import random
-import psutil
 import wolframalpha
 import time
+from PIL import ImageGrab
+import psutil
 import os
-import pyglet
 import screen_brightness_control
-from tkinter import * 
+import threading
+import keyboard
+from tkinter import *
 
-#Text for the labels
-
-global var
-global varBat
-
-
-pyglet.font.add_file('Forte.TTF')
-
-
-#Text to speech 
+global varbBat
 
 engine=pyttsx3.init('sapi5')
 
@@ -32,46 +27,43 @@ engine.setProperty('voice',voices[0].id)
 
 engine.setProperty('rate',200)
 
-#Main Window Initialization
+def Gui():
+   window =Tk()
+   window.resizable(False,False)
+   window.title("Alex- Virtual Voice Assistant")
+   window.iconbitmap('robot.ico')
+   window.geometry("400x500+550+100")
+   window.config(bg='yellow')
+   ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER,bg='yellow')
+   ttl.place(x=127,y=60)
+   status=Label(window,text="*Your Personal Voice Assistant*",font='Forte 15',bg='yellow')
+   status.place(x=67,y=380)
+   varbBat=StringVar()
+   about_image = PhotoImage(file = "nanotechnology.png")
+   try:
+      battery = psutil.sensors_battery()
+      percent = battery.percent
+      if (percent<20):
+         varbBat.set("Battery Low !! "+str(percent)+"%")
 
-window =Tk()
-window.resizable(False,False)
-window.title("Alex- Virtual Voice Assistant")
-window.iconbitmap('robot.ico')
-window.geometry("400x600+550+100")
-window.config(bg='yellow')
-
-#For Label Text
-
-var=StringVar()
-varBat=StringVar()
-
-#Making it speak
-
-def speak(audio):
-    engine.say(audio)
-    try:
-      engine.runAndWait()
-    except Exception as e:
-       print("nothing much")
-
-# Battery Status
-try:
-
-   battery = psutil.sensors_battery()
-   percent = battery.percent
-
-   if (percent<20):
-      varBat.set("Battery Low !! "+str(percent)+"%")
-
-   else:
-      varBat.set("Battery percent: "+str(percent)+"%")
-
-except Exception as f:
-   varBat.set("")
+      else:
+         varbBat.set("Battery percent: "+str(percent)+"%")
+   except Exception as f:
+         varbBat.set("")
+   batteryStatus=Label(window,textvariable=varbBat,font="Aparajita 16",bg='yellow')
+   batteryStatus.place(x=11,y=9)
+   lis=Label(window,image=about_image,padx=12,pady=5,anchor=CENTER,font='Forte 40',bg='yellow')
+   lis.place(x=135,y=200)
+   window.mainloop()
    
-
-#Some Trivial commands
+def kill_process(PROCNAME):
+  for proc in psutil.process_iter():
+    try:
+      if proc.name().lower() == PROCNAME.lower():
+        proc.kill()
+        return True
+    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+      return False
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -86,111 +78,50 @@ def wishMe():
 
     speak("I am Alex Sir. Please tell me how may I help you") 
 
-def tossAcoin():
-     
-    coins = [1,2]
-    choice = random.choice(coins)
-     
-    if choice == 1:
-         
-        speak("Sir, its head")
-    elif choice == 2:
-         
-        speak("Sir, its tails")
-         
-     
- 
-def rollAdice():
-    dice = [1,2,3,4,5,6]
-    value = random.choice(dice)
-    if value == 1:
-        speak("Sir, its 1 on dice")
-    elif value == 2:
-        speak("Sir, its 2 on dice ")
-    elif value == 3:
-        speak("Sir, its 3 on dice ")
-    elif value == 4:
-        speak("Sir, its 4 on dice ")
-    elif value == 5:
-        speak("Sir, its 5 on dice ")
-    elif value == 6:
-        speak("Sir, its 6 on dice ")       
+def speak(audio):
+    engine.say(audio)
+    try:
+      engine.runAndWait()
+    except Exception as e:
+       print("nothing much")
 
-#Taking user input
-        
+
+
 def takeCommand(event = " "):
-      
-     var.set("....")
+
+     print("Listening...\n")
       
      r=sr.Recognizer()
-      
+ 
      with sr.Microphone() as source:
           
          r.pause_threshold=0.8
           
          r.energy_threshold=300
           
-         r.non_speaking_duration=0.01
+         r.non_speaking_duration=0.1
 
-         r.adjust_for_ambient_noise(source,1.2)
+         r.adjust_for_ambient_noise(source,0.2)
+
+         print("Recognizing...\n")
 
          audio=r.listen(source)
-          
 
          try:
-              
-             var.set(".....")
-              
+
              audio = r.recognize_google(audio, language='en-in')
               
              query=audio.lower()         
 
-             print(query)  
+             print(query+"\n")  
               
          except Exception as e:
              
-               speak("Say that again please....")
-             
                query=""
 
-         if "toss a coin" in query:
-             
-            tossAcoin()
-             
-            var.set("")
-         
-         
-         elif "roll a dice" in query:
-             
-            rollAdice()
-             
-            var.set("")
-         
-         elif 'increase brightness' in query:
-            current=screen_brightness_control.get_brightness()
-            screen_brightness_control.set_brightness(current+10)
-            if current==100:
-               speak("Maximum brightness")
-            else:
-               speak("Increased")
-            var.set("")
-
-         elif 'decrease brightness' in query:
-            current=screen_brightness_control.get_brightness()
-            screen_brightness_control.set_brightness(current-10)
-            if current==0:
-               speak("Minimum brightness")
-            else:
-               speak("Decreased")
-            var.set("")
-            
-         
-         elif "thank you" in query:
-
-            speak("Always my pleasure")
-             
-
- #Web based commands
+         if 'type' in query:
+            sentence=query.replace('type','')
+            keyboard.write(sentence)
 
          elif 'youtube' in query:
              
@@ -198,9 +129,7 @@ def takeCommand(event = " "):
              
             webbrowser.open("youtube.com")
 
-            var.set("")
-      
-         
+
          elif 'tell me' in query:
             speak('Always here to answer your questions,give me a second')
             client = wolframalpha.Client('GRL2AR-KL6GUV7K2R')
@@ -212,7 +141,7 @@ def takeCommand(event = " "):
                speak(answer)
             except Exception as e:
                speak("I did not understand that question")
-            var.set("")
+             
               
 
          elif 'news' in query:
@@ -221,7 +150,7 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://www.youtube.com/c/BBCNews")
 
-            var.set("")
+             
 
          elif 'drive' in query:
              
@@ -229,7 +158,7 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://drive.google.com/drive/my-drive")
 
-            var.set("")
+             
 
          elif 'meet' in query:
              
@@ -237,16 +166,31 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://meet.google.com/")
 
-            var.set("")
+         
+         elif 'xbox' in query:
+            if(windowsapps.find_app('xbox game bar')=="Application not found!"):  
+               speak("You do not have this application")
+                
+            else:
+                
+               windowsapps.open_app('xbox game bar')               
+               speak("Opening xbox game bar")              
+             
+
+         elif 'game' in query:
+             
+            speak("As you wish ")
+             
+            webbrowser.open("https://chromedino.com/")
+
+             
          
          elif 'github' in query:
              
             speak("opening github ")
              
             webbrowser.open("https://github.com/")
-
-            var.set("")
-
+         
 
          elif 'whatsapp' in query:
              
@@ -254,15 +198,21 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://web.whatsapp.com")
              
-            var.set("")
+             
 
          elif 'mail' in query:
              
             speak("opening gmail ")
              
             webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
+
+         elif 'fiddle' in query:
              
-            var.set("")
+            speak("opening sql fiddle ")
+             
+            webbrowser.open("https://www.db-fiddle.com/f/6GJsV5KP3csKy9vg4y2us7/0")
+             
+             
 
          elif 'classroom' in query:
              
@@ -270,7 +220,7 @@ def takeCommand(event = " "):
              
             webbrowser.open("https://classroom.google.com/h")
              
-            var.set("")
+             
 
          elif 'weather' in query:
              
@@ -278,7 +228,7 @@ def takeCommand(event = " "):
 
             webbrowser.open("https://www.bing.com/search?q=weather&cvid=80b3646d80b745f3808c8e0549263256&aqs=edge.0.0l9.3156j0j1&pglt=43&FORM=ANSPA1&PC=EDGEDB")
 
-            var.set("")
+             
          
 
 #Time command
@@ -288,16 +238,17 @@ def takeCommand(event = " "):
             strTime=datetime.datetime.now().strftime("%H:%M:%S")
             speak(f"Sir the time is {strTime}")
              
-            var.set("")
+             
 
 #Internet speed test        
 
          elif 'internet speed' in query:
             
-            speak("Lets check your internet speed")
-            webbrowser.open_new_tab('https://www.speedtest.net/')
+            speak("checking internet speed")
 
-            var.set("")
+            webbrowser.open("https://www.speedtest.net/")
+
+             
          
 #System commands
 
@@ -309,8 +260,23 @@ def takeCommand(event = " "):
                 
                speak("opening Visual studio code , please wait")
                windowsapps.open_app("Visual Studio Code")
-                
-            var.set("")
+
+         elif 'increase brightness' in query:
+            current=screen_brightness_control.get_brightness()
+            screen_brightness_control.set_brightness(current+10)
+            if current==100:
+               speak("Maximum brightness")
+            else:
+               speak("Increased")
+
+         elif 'reduce brightness' in query:
+            current=screen_brightness_control.get_brightness()
+            screen_brightness_control.set_brightness(current-10)
+            if current==0:
+               speak("Minimum brightness")
+            else:
+               speak("Decreased")
+
 
          elif 'word' in query:
             if windowsapps.find_app('Word')=="Application not found!":
@@ -320,8 +286,13 @@ def takeCommand(event = " "):
                 
                speak("opening word ")
                windowsapps.open_app("Word")
-                
-            var.set("")
+         
+         elif 'screenshot' in query:
+
+            image = ImageGrab.grab(all_screens=True)
+            i=random.randint(0,1000)
+            image.save(f'sc{i}.png')    
+            speak("Taken")
 
          elif 'powerpoint' in query:
              
@@ -333,7 +304,7 @@ def takeCommand(event = " "):
                speak("opening power point")
                windowsapps.open_app("Powerpoint")
                 
-            var.set("")
+             
          
          elif 'edge' in query:
             if windowsapps.find_app('Edge')=="Application not found!":
@@ -344,7 +315,7 @@ def takeCommand(event = " "):
                speak("opening Microsoft Edge")
                windowsapps.open_app("Edge")
                 
-            var.set("")
+             
          
          elif 'chrome' in query:
              
@@ -356,7 +327,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('chrome')
                speak("Opening google chrome")
                 
-            var.set("")
+             
          
          elif 'calculator' in query:
              
@@ -368,7 +339,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('calculator')
                speak("Opening calculator")
                 
-            var.set("")
+             
 
          elif 'camera' in query:
              
@@ -380,7 +351,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('camera')
                speak("Opening camera")
                 
-            var.set("")
+             
 
          elif 'zoom' in query:
              
@@ -392,19 +363,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('zoom')
                speak("Opening zoom")
                 
-            var.set("")
-
-         elif 'teams' in query:
              
-            if windowsapps.find_app('microsoft teams')=="Application not found!":
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('microsoft teams')
-               speak("Opening microsoft teams")
-                
-            var.set("")
 
          elif 'firefox' in query:
              
@@ -416,7 +375,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('firefox')
                speak("Opening firefox")
                 
-            var.set("")
+             
          
          # Take some notes
       
@@ -428,14 +387,14 @@ def takeCommand(event = " "):
             remeber = open('memory.txt','w')
             remeber.write(remeberMsg)
             remeber.close()
-            var.set("")
+             
 
 
          elif 'what do you remember' in query:
             remeber = open('memory.txt','r')
             speak("You told me that:" + remeber.read())
             remeber.close()
-            var.set("")
+             
 
          # System commands
 
@@ -449,7 +408,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('eclipse')
                speak("Opening eclipse")
                 
-            var.set("")
+             
 
          elif 'intellij' in query:
              
@@ -461,7 +420,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('intellij idea')
                speak("Opening intellij idea")
                 
-            var.set("")
+             
 
          elif 'paint' in query:
              
@@ -473,7 +432,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('paint')
                speak("Opening paint")
                 
-            var.set("")
+             
 
          elif 'notepad' in query:
              
@@ -485,7 +444,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('notepad')
                speak("Opening notepad")
                 
-            var.set("")
+             
 
          elif 'excel' in query:
              
@@ -497,7 +456,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('excel')
                speak("Opening excel")
                 
-            var.set("")
+             
 
          elif 'picture' in query:
              
@@ -509,9 +468,9 @@ def takeCommand(event = " "):
                windowsapps.open_app('photos')
                speak("Opening photos")
                 
-            var.set("")
+             
 
-         elif 'settings' in query:
+         elif 'control panel' in query:
              
             if windowsapps.find_app('control panel')=="Application not found!":
                speak("You do not have this application")
@@ -521,13 +480,12 @@ def takeCommand(event = " "):
                windowsapps.open_app('control panel')
                speak("Opening control panel")
                 
-            var.set("")
+             
 
          elif 'play music' in query:
              
             speak("Opening media player")
             windowsapps.open_app("windows media player")
-            var.set(" ")
 
          elif 'photoshop' in query:
              
@@ -539,7 +497,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('adobe photoshop')
                speak("Opening adobe photoshop")
                 
-            var.set("")
+             
 
 
          elif 'to do' in query:
@@ -551,7 +509,7 @@ def takeCommand(event = " "):
                 
                windowsapps.open_app('to do')
                speak("Opening microsoft to do")
-            var.set("")
+             
 
          elif 'your phone' in query:
              
@@ -563,7 +521,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('your phone')
                speak("Opening your phone")
                 
-            var.set("")
+             
    
          elif 'powershell' in query:
              
@@ -573,7 +531,7 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('powershell')
                speak("Opening windows powershell") 
-            var.set("")
+             
 
          elif 'bash' in query:
              
@@ -583,7 +541,7 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('git bash')
                speak("Opening git bash")
-            var.set("")
+             
 
          elif 'python' in query:
             if windowsapps.find_app('IDLE (Python 3.10 64-bit)')=="Application not found!":
@@ -592,7 +550,7 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('IDLE (Python 3.10 64-bit)')    
                speak("Opening python shell")
-            var.set("")
+             
 
          elif 'calendar' in query:
             if windowsapps.find_app('calendar')=="Application not found!":
@@ -601,17 +559,7 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('calendar')
                speak("Opening calendar")
-            var.set("")
-
-         elif 'xbox' in query:
-            if(windowsapps.find_app('xbox game bar')=="Application not found!"):  
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('xbox game bar')               
-               speak("Opening xbox game bar")              
-            var.set("")
+             
 
          elif 'android studio' in query:
             if windowsapps.find_app('android studio')=="Application not found!":
@@ -621,7 +569,7 @@ def takeCommand(event = " "):
                windowsapps.open_app('android studio')
                speak("Opening android studio")
                 
-            var.set("")
+             
 
          # Video Editting software
 
@@ -634,7 +582,7 @@ def takeCommand(event = " "):
                 
                windowsapps.open_app('filmora')
                speak("Opening filmora")
-            var.set("")
+             
 
          elif 'premiere' in query:
              
@@ -644,84 +592,45 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('adobe premiere pro')
                speak("Opening adobe premiere pro")
-            var.set("")
+             
          
          elif 'power of' in query:
             speak("Logging of the computer in 5 seconds")
             time.sleep(5)
             os.system("shutdown /s /t 1")
 
+         elif 'sleep' in query:
+            speak("As you wish")
+            os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+
+         elif 'restart' in query:
+            speak("As you wish")
+            os.system("shutdown /r /t 0")
+         
+
 #Else
             
-         else:
-            var.set("")
-            
+         elif 'quit' in query:
+             speak("Have a nice day")
+             exit()
          
-#Function for About and Back button
+         else:
+            query=""
+            speak("")
 
-imgBackButton=PhotoImage(file="Images\\back2.png")
 
-def goBack(event=" "):
-       info.destroy()
-       window.deiconify()
-
-def show_info(event = " "):
-
-       global info
-       info = Toplevel(window)
-       info.title("About")
-       info.geometry("400x600+550+100")
-       info.config(bg='yellow')
-       info.resizable(False,False)
-       window.withdraw()
-       back_button = Button(info, command =goBack,relief=FLAT,image=imgBackButton,bg='yellow')
-       back_button.pack(anchor ="nw", side = TOP)
-       info_info = "\n\n\n\nAlex is your personalized desktop\n assistant which assists you in your \n daily computing tasks thereby increasing\n efficiency at work\n\n It is developed by Computer Engineering \n Students of M.H.Saboo Siddik College\n of Engineering,Mumbai:\n\n Rohan Bhabhal\nAzim Ahmed Bijapur\nArkaan Khan\nAbuzar Shaikh\n\nUnder the guidance of :\nProf.Anand Bali,\nAssistant Professor,Mhssce"
-       info_label = Label(info, text = info_info,bg='yellow')
-       titleLabel= Label(info,text='About Us',bg='yellow',font='Calibri 25')
-       titleLabel.place(x=140,y=20)
-       info_label.config(font='Calibri 14')
-       info_label.pack(anchor= "n")
-       info.iconbitmap('robot.ico')
-
-# Threading
 def start_cmd():
-      t2=threading.Thread(target=takeCommand)
+      t2=threading.Thread(target=Gui)
       t2.start()
-      
-# Gui functionality
 
-icons=PhotoImage(file="Images\\mic.png")
-
-activate=Button(window,text="Speak",command=start_cmd ,relief=FLAT,image=icons,height=70,width=70,anchor=CENTER,border=5,borderwidth=5,bg='yellow')
-
-activate.place(x=160,y=230)
-
-status=Label(window,text="Your Personal Voice Assistant",font='Forte 15',bg='yellow')
-
-status.place(x=67,y=450)
-
-ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER,bg='yellow')
-
-ttl.place(x=127,y=100)
-
-lis=Label(window,textvariable=var,padx=12,pady=5,anchor=CENTER,font='Forte 40',bg='yellow')
-
-lis.place(x=158,y=330)
-
-batteryStatus=Label(window,textvariable=varBat,font="Aparajita 16",bg='yellow')
-
-batteryStatus.place(x=11,y=9)
-
-about_image = PhotoImage(file = "Images\info2.png")
-
-about_button = Button(window,image = about_image,relief=FLAT, command = show_info,bg='yellow')
-
-about_button.pack(anchor="ne")
-
-window.bind('<Control-i>',show_info)
-
-window.mainloop()
-
-
+start_cmd()
+while(True):
+       
+        wishMe()
+        
+        while(True):
+        
+            takeCommand()
+    
+     
 
