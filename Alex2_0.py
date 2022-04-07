@@ -19,6 +19,8 @@ from tkinter import *
 
 global varbBat
 
+pyglet.font.add_file('Forte.TTF')
+
 engine=pyttsx3.init('sapi5')
 
 voices=engine.getProperty('voices')
