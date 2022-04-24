@@ -1,25 +1,18 @@
 from random import randint
-from signal import signal
 import pyttsx3
 import random
 import datetime
-from regex import P
 import speech_recognition as sr
 import webbrowser
 import windowsapps
 import wolframalpha
 import time
 from PIL import ImageGrab
-import psutil
 import os
 import screen_brightness_control
-import threading
 import keyboard
-from tkinter import *
-
-global varbBat
-
-pyglet.font.add_file('Forte.TTF')
+import pywhatkit
+import sys
 
 engine=pyttsx3.init('sapi5')
 
@@ -29,43 +22,6 @@ engine.setProperty('voice',voices[0].id)
 
 engine.setProperty('rate',200)
 
-def Gui():
-   window =Tk()
-   window.resizable(False,False)
-   window.title("Alex- Virtual Voice Assistant")
-   window.iconbitmap('robot.ico')
-   window.geometry("400x500+550+100")
-   window.config(bg='yellow')
-   ttl=Label(window,text="Alex",font='Forte 50',anchor=CENTER,bg='yellow')
-   ttl.place(x=127,y=60)
-   status=Label(window,text="*Your Personal Voice Assistant*",font='Forte 15',bg='yellow')
-   status.place(x=67,y=380)
-   varbBat=StringVar()
-   about_image = PhotoImage(file = "nanotechnology.png")
-   try:
-      battery = psutil.sensors_battery()
-      percent = battery.percent
-      if (percent<20):
-         varbBat.set("Battery Low !! "+str(percent)+"%")
-
-      else:
-         varbBat.set("Battery percent: "+str(percent)+"%")
-   except Exception as f:
-         varbBat.set("")
-   batteryStatus=Label(window,textvariable=varbBat,font="Aparajita 16",bg='yellow')
-   batteryStatus.place(x=11,y=9)
-   lis=Label(window,image=about_image,padx=12,pady=5,anchor=CENTER,font='Forte 40',bg='yellow')
-   lis.place(x=135,y=200)
-   window.mainloop()
-   
-def kill_process(PROCNAME):
-  for proc in psutil.process_iter():
-    try:
-      if proc.name().lower() == PROCNAME.lower():
-        proc.kill()
-        return True
-    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-      return False
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -88,22 +44,16 @@ def speak(audio):
        print("nothing much")
 
 
-
 def takeCommand(event = " "):
-
-     print("Listening...\n")
       
      r=sr.Recognizer()
+     print("Listening...\n")
  
      with sr.Microphone() as source:
           
-         r.pause_threshold=0.8
+         r.energy_threshold=400
           
-         r.energy_threshold=300
-          
-         r.non_speaking_duration=0.1
-
-         r.adjust_for_ambient_noise(source,0.2)
+         r.dynamic_energy_threshold=False
 
          print("Recognizing...\n")
 
@@ -122,14 +72,25 @@ def takeCommand(event = " "):
                query=""
 
          if 'type' in query:
+
             sentence=query.replace('type','')
+
             keyboard.write(sentence)
+         
+         elif 'are you' in query:
+
+            speak("Go ahead I am listening to you")
+            
 
          elif 'youtube' in query:
-             
-            speak("opening youtube ")
-             
-            webbrowser.open("youtube.com")
+
+            sentence=query.replace("youtube","")
+
+            try:
+               pywhatkit.playonyt(sentence)
+               speak("Playing...")
+            except:
+               speak("Network Error Occured")
 
 
          elif 'tell me' in query:
@@ -143,8 +104,16 @@ def takeCommand(event = " "):
                speak(answer)
             except Exception as e:
                speak("I did not understand that question")
-             
-              
+
+         
+         elif 'search' in query:
+            sentence=query.replace("youtube","")
+            try:
+               pywhatkit.search(sentence)
+               speak("Searching")
+            except:
+               speak("Network Error Occured")
+         
 
          elif 'news' in query:
              
@@ -167,16 +136,7 @@ def takeCommand(event = " "):
             speak("opening google meet ")
              
             webbrowser.open("https://meet.google.com/")
-
-         
-         elif 'xbox' in query:
-            if(windowsapps.find_app('xbox game bar')=="Application not found!"):  
-               speak("You do not have this application")
-                
-            else:
-                
-               windowsapps.open_app('xbox game bar')               
-               speak("Opening xbox game bar")              
+        
              
 
          elif 'game' in query:
@@ -207,6 +167,7 @@ def takeCommand(event = " "):
             speak("opening gmail ")
              
             webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
+
 
          elif 'fiddle' in query:
              
@@ -278,6 +239,15 @@ def takeCommand(event = " "):
                speak("Minimum brightness")
             else:
                speak("Decreased")
+         
+         elif 'xbox' in query:
+            if(windowsapps.find_app('xbox game bar')=="Application not found!"):  
+               speak("You do not have this application")
+                
+            else:
+                
+               windowsapps.open_app('xbox game bar')               
+               speak("Opening xbox game bar")      
 
 
          elif 'word' in query:
@@ -290,11 +260,13 @@ def takeCommand(event = " "):
                windowsapps.open_app("Word")
          
          elif 'screenshot' in query:
-
-            image = ImageGrab.grab(all_screens=True)
-            i=random.randint(0,1000)
-            image.save(f'sc{i}.png')    
-            speak("Taken")
+            try:
+               image = ImageGrab.grab(all_screens=True)
+               i=random.randint(0,10000)
+               image.save(f'C:\Screenshots\\sc{i}.png')    
+               speak("Taken")
+            except Exception as e:
+               speak('retake the screenshot')
 
          elif 'powerpoint' in query:
              
@@ -386,16 +358,20 @@ def takeCommand(event = " "):
             qa=query
             remeberMsg = qa.replace("remember that ","")
             speak("okay I will remember that :")
-            remeber = open('memory.txt','w')
-            remeber.write(remeberMsg)
-            remeber.close()
-             
-
+            try:
+               remeber = open('memory.txt','w')
+               remeber.write(remeberMsg)
+               remeber.close()
+            except:
+               speak("memory file is missing , create a memory text file where i am placed")
 
          elif 'what do you remember' in query:
-            remeber = open('memory.txt','r')
-            speak("You told me that:" + remeber.read())
-            remeber.close()
+            try:
+               remeber = open('memory.txt','r')
+               speak("You told me that:" + remeber.read())
+               remeber.close()
+            except:
+               speak("memory file is missing , create a memory text file where i am placed")
              
 
          # System commands
@@ -594,7 +570,8 @@ def takeCommand(event = " "):
             else:
                windowsapps.open_app('adobe premiere pro')
                speak("Opening adobe premiere pro")
-             
+      
+      # Important system commands
          
          elif 'power of' in query:
             speak("Logging of the computer in 5 seconds")
@@ -608,31 +585,22 @@ def takeCommand(event = " "):
          elif 'restart' in query:
             speak("As you wish")
             os.system("shutdown /r /t 0")
-         
 
-#Else
-            
+      # Final block          
          elif 'quit' in query:
-             speak("Have a nice day")
-             exit()
-         
+            speak("Have a nice day")
+            sys.exit()   
+            
          else:
             query=""
             speak("")
 
-
-def start_cmd():
-      t2=threading.Thread(target=Gui)
-      t2.start()
-
-start_cmd()
-while(True):
        
-        wishMe()
+wishMe()
         
-        while(True):
+while(True):
         
-            takeCommand()
+   takeCommand()
     
      
 
